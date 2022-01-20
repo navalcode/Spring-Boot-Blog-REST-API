@@ -1,5 +1,34 @@
 [![Build Status](https://travis-ci.com/coma123/Spring-Boot-Blog-REST-API.svg?branch=development)](https://travis-ci.com/coma123/Spring-Boot-Blog-REST-API) [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=coma123_Spring-Boot-Blog-REST-API&metric=alert_status)](https://sonarcloud.io/dashboard?id=coma123_Spring-Boot-Blog-REST-API) [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3706/badge)](https://bestpractices.coreinfrastructure.org/projects/3706)
 
+Este proyecto es un fork de [https://github.com/osopromadze/Spring-Boot-Blog-REST-API](https://github.com/osopromadze/Spring-Boot-Blog-REST-API) realizado para fines didácticos sobre el testeo de aplicaciones Spring Boot. Desde aquí mi agradecimiento al autor del mismo.
+
+Se incluyen algunas pequeñas modificaciones sobre cómo lanzar el proyecto desde Docker.
+
+### Perfil `dev`
+
+Al activar este perfil, la aplicación tratará de conectarse a una base de datos Mysql local. Esta puede ser desplegada con el fichero `docker-compose.dev.yml`.
+
+```bash
+docker-compose -f docker-compose.dev.yml
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+Una vez lanzada la base de datos, si solamente se quieren ejecutar los test, se puede ejecutar el siguiente comando:
+
+```bash
+mvn test -Dspring-boot.run.profiles=dev
+```
+
+### Perfil `prod`
+
+Perfil orientado a producción. La aplicación se conectará a una base de datos en con un hostname concreto orientado a ser lanzado con docker-compose con el fichero `docker-compose.yml`
+
+```bash
+docker-compose build application
+docker-compose up -d
+```
+
+
 # Spring Boot, MySQL, Spring Security, JWT, JPA, Rest API
 
 Build Restful CRUD API for a blog using Spring Boot, Mysql, JPA and Hibernate.
