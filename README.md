@@ -9,7 +9,7 @@ Se incluyen algunas pequeñas modificaciones sobre cómo lanzar el proyecto desd
 Al activar este perfil, la aplicación tratará de conectarse a una base de datos Mysql local. Esta puede ser desplegada con el fichero `docker-compose.dev.yml`.
 
 ```bash
-docker-compose -f docker-compose.dev.yml
+docker-compose -f docker-compose.dev.yml up -d
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
