@@ -21,6 +21,7 @@ import com.sopromadze.blogapi.repository.RoleRepository;
 import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,18 +32,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-	@Autowired
-	private UserRepository userRepository;
 
-	@Autowired
-	private PostRepository postRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	private RoleRepository roleRepository;
+	private final PostRepository postRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private final RoleRepository roleRepository;
+
+	private final PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserSummary getCurrentUser(UserPrincipal currentUser) {

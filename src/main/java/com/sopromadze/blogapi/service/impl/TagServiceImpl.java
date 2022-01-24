@@ -10,6 +10,7 @@ import com.sopromadze.blogapi.repository.TagRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.TagService;
 import com.sopromadze.blogapi.utils.AppUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,10 +23,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
 
-	@Autowired
-	private TagRepository tagRepository;
+	private final TagRepository tagRepository;
 
 	@Override
 	public PagedResponse<Tag> getAllTags(int page, int size) {

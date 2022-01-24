@@ -15,6 +15,7 @@ import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.PhotoService;
 import com.sopromadze.blogapi.utils.AppConstants;
 import com.sopromadze.blogapi.utils.AppUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,13 +34,12 @@ import static com.sopromadze.blogapi.utils.AppConstants.ID;
 import static com.sopromadze.blogapi.utils.AppConstants.PHOTO;
 
 @Service
+@RequiredArgsConstructor
 public class PhotoServiceImpl implements PhotoService {
 
-	@Autowired
-	private PhotoRepository photoRepository;
+	private final PhotoRepository photoRepository;
 
-	@Autowired
-	private AlbumRepository albumRepository;
+	private final AlbumRepository albumRepository;
 
 	@Override
 	public PagedResponse<PhotoResponse> getAllPhotos(int page, int size) {

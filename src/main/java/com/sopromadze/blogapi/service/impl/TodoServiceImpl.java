@@ -12,6 +12,7 @@ import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.TodoService;
 import com.sopromadze.blogapi.utils.AppConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,13 +29,12 @@ import static com.sopromadze.blogapi.utils.AppConstants.TODO;
 import static com.sopromadze.blogapi.utils.AppConstants.YOU_DON_T_HAVE_PERMISSION_TO_MAKE_THIS_OPERATION;
 
 @Service
+@RequiredArgsConstructor
 public class TodoServiceImpl implements TodoService {
 
-	@Autowired
-	private TodoRepository todoRepository;
+	private final TodoRepository todoRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	@Override
 	public Todo completeTodo(Long id, UserPrincipal currentUser) {

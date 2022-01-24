@@ -4,6 +4,7 @@ import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,9 +14,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailsServiceImpl implements UserDetailsService, CustomUserDetailsService {
-	@Autowired
-	private UserRepository userRepository;
+
+	private final UserRepository userRepository;
 
 	@Override
 	@Transactional

@@ -15,6 +15,7 @@ import com.sopromadze.blogapi.service.AlbumService;
 import com.sopromadze.blogapi.service.PostService;
 import com.sopromadze.blogapi.service.UserService;
 import com.sopromadze.blogapi.utils.AppConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +34,16 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
-	@Autowired
-	private UserService userService;
 
-	@Autowired
-	private PostService postService;
+	private final UserService userService;
 
-	@Autowired
-	private AlbumService albumService;
+
+	private final PostService postService;
+
+
+	private final AlbumService albumService;
 
 	@GetMapping("/me")
 	@PreAuthorize("hasRole('USER')")

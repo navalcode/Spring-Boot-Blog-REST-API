@@ -20,6 +20,7 @@ import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.PostService;
 import com.sopromadze.blogapi.utils.AppConstants;
 import com.sopromadze.blogapi.utils.AppUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,18 +41,16 @@ import static com.sopromadze.blogapi.utils.AppConstants.TAG;
 import static com.sopromadze.blogapi.utils.AppConstants.USER;
 
 @Service
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
-	@Autowired
-	private PostRepository postRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final PostRepository postRepository;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	private TagRepository tagRepository;
+	private final CategoryRepository categoryRepository;
+
+	private final TagRepository tagRepository;
 
 	@Override
 	public PagedResponse<Post> getAllPosts(int page, int size) {
@@ -103,7 +102,7 @@ public class PostServiceImpl implements PostService {
 
 		Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, CREATED_AT);
 
-		Page<Post> posts = postRepository.findByTags(Collections.singletonList(tag), pageable);
+		Page<Post> posts = postRepository.findByTagsIn(Collections.singletonList(tag), pageable);
 
 		List<Post> content = posts.getNumberOfElements() == 0 ? Collections.emptyList() : posts.getContent();
 

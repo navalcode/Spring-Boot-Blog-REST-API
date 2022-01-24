@@ -25,10 +25,10 @@ public class BlogApiApplication {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	}
 
-	@Bean
+	/*@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {
 		return new JwtAuthenticationFilter();
-	}
+	}*/
 
 	@Bean
 	public ModelMapper modelMapper() {

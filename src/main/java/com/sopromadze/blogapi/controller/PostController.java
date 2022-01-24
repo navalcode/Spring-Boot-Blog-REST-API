@@ -9,6 +9,7 @@ import com.sopromadze.blogapi.security.CurrentUser;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.PostService;
 import com.sopromadze.blogapi.utils.AppConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +28,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/posts")
+@RequiredArgsConstructor
 public class PostController {
-	@Autowired
-	private PostService postService;
+
+
+	private final PostService postService;
 
 	@GetMapping
 	public ResponseEntity<PagedResponse<Post>> getAllPosts(

@@ -15,6 +15,7 @@ import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.CommentService;
 import com.sopromadze.blogapi.utils.AppUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 	private static final String THIS_COMMENT = " this comment";
 
@@ -38,14 +40,11 @@ public class CommentServiceImpl implements CommentService {
 
 	private static final String COMMENT_DOES_NOT_BELONG_TO_POST = "Comment does not belong to post";
 
-	@Autowired
-	private CommentRepository commentRepository;
+	private final CommentRepository commentRepository;
 
-	@Autowired
-	private PostRepository postRepository;
+	private final PostRepository postRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	@Override
 	public PagedResponse<Comment> getAllComments(Long postId, int page, int size) {

@@ -7,6 +7,7 @@ import com.sopromadze.blogapi.security.CurrentUser;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.TodoService;
 import com.sopromadze.blogapi.utils.AppConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/todos")
+@RequiredArgsConstructor
 public class TodoController {
 
-	@Autowired
-	private TodoService todoService;
+
+	private final TodoService todoService;
 
 	@GetMapping
 	@PreAuthorize("hasRole('USER')")

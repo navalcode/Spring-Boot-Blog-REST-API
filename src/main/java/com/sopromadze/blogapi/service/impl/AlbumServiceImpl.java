@@ -14,6 +14,7 @@ import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.AlbumService;
 import com.sopromadze.blogapi.utils.AppUtils;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,7 @@ import java.util.List;
 import static com.sopromadze.blogapi.utils.AppConstants.ID;
 
 @Service
+@RequiredArgsConstructor
 public class AlbumServiceImpl implements AlbumService {
 	private static final String CREATED_AT = "createdAt";
 
@@ -39,14 +41,12 @@ public class AlbumServiceImpl implements AlbumService {
 
 	private static final String YOU_DON_T_HAVE_PERMISSION_TO_MAKE_THIS_OPERATION = "You don't have permission to make this operation";
 
-	@Autowired
-	private AlbumRepository albumRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final AlbumRepository albumRepository;
 
-	@Autowired
-	private ModelMapper modelMapper;
+	private final UserRepository userRepository;
+
+	private final ModelMapper modelMapper;
 
 	@Override
 	public PagedResponse<AlbumResponse> getAllAlbums(int page, int size) {

@@ -8,6 +8,7 @@ import com.sopromadze.blogapi.security.CurrentUser;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.PhotoService;
 import com.sopromadze.blogapi.utils.AppConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/photos")
+@RequiredArgsConstructor
 public class PhotoController {
-	@Autowired
-	private PhotoService photoService;
+
+
+	private final PhotoService photoService;
 
 	@GetMapping
 	public PagedResponse<PhotoResponse> getAllPhotos(

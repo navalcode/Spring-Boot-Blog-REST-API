@@ -8,7 +8,9 @@ import com.sopromadze.blogapi.security.CurrentUser;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.CommentService;
 import com.sopromadze.blogapi.utils.AppConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,9 +28,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/posts/{postId}/comments")
+@RequiredArgsConstructor
 public class CommentController {
-	@Autowired
-	private CommentService commentService;
+
+	private final CommentService commentService;
 
 	@GetMapping
 	public ResponseEntity<PagedResponse<Comment>> getAllComments(@PathVariable(name = "postId") Long postId,

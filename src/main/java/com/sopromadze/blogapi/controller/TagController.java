@@ -7,6 +7,7 @@ import com.sopromadze.blogapi.security.CurrentUser;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.TagService;
 import com.sopromadze.blogapi.utils.AppConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/tags")
+@RequiredArgsConstructor
 public class TagController {
-	@Autowired
-	private TagService tagService;
+
+
+	private final TagService tagService;
 
 	@GetMapping
 	public ResponseEntity<PagedResponse<Tag>> getAllTags(

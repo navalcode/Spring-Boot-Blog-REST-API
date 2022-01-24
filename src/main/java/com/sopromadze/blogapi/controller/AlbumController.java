@@ -13,6 +13,7 @@ import com.sopromadze.blogapi.service.AlbumService;
 import com.sopromadze.blogapi.service.PhotoService;
 import com.sopromadze.blogapi.utils.AppConstants;
 import com.sopromadze.blogapi.utils.AppUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/albums")
+@RequiredArgsConstructor
 public class AlbumController {
-	@Autowired
-	private AlbumService albumService;
 
-	@Autowired
-	private PhotoService photoService;
+	private final AlbumService albumService;
+
+	private final PhotoService photoService;
 
 	@ExceptionHandler(ResponseEntityErrorException.class)
 	public ResponseEntity<ApiResponse> handleExceptions(ResponseEntityErrorException exception) {

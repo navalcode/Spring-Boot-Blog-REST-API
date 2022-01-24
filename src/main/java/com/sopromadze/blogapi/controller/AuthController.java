@@ -12,6 +12,7 @@ import com.sopromadze.blogapi.payload.SignUpRequest;
 import com.sopromadze.blogapi.repository.RoleRepository;
 import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,23 +34,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 	private static final String USER_ROLE_NOT_SET = "User role not set";
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private UserRepository userRepository;
+	private final AuthenticationManager authenticationManager;
 
-	@Autowired
-	private RoleRepository roleRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private final RoleRepository roleRepository;
 
-	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
+	private final PasswordEncoder passwordEncoder;
+
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("/signin")
 	public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
