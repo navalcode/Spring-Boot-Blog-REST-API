@@ -57,7 +57,8 @@ public class AlbumController {
 	@PostMapping
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<Album> addAlbum(@Valid @RequestBody AlbumRequest albumRequest, @CurrentUser UserPrincipal currentUser) {
-		return albumService.addAlbum(albumRequest, currentUser);
+		return ResponseEntity.status(HttpStatus.CREATED).body(albumService.addAlbum(albumRequest, currentUser));
+
 	}
 
 	@GetMapping("/{id}")

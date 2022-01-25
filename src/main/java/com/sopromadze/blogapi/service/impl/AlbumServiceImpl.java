@@ -68,7 +68,7 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	@Override
-	public ResponseEntity<Album> addAlbum(AlbumRequest albumRequest, UserPrincipal currentUser) {
+	public Album addAlbum(AlbumRequest albumRequest, UserPrincipal currentUser) {
 		User user = userRepository.getUser(currentUser);
 
 		Album album = new Album();
@@ -76,8 +76,8 @@ public class AlbumServiceImpl implements AlbumService {
 		modelMapper.map(albumRequest, album);
 
 		album.setUser(user);
-		Album newAlbum = albumRepository.save(album);
-		return new ResponseEntity<>(newAlbum, HttpStatus.CREATED);
+
+		return albumRepository.save(album);
 	}
 
 	@Override
