@@ -62,7 +62,7 @@ public class VerifyMockito {
 
         when(userRepository.getUserByName("user")).thenReturn(user);
 
-        when(albumRepository.findByCreatedBy(any(Long.class), any(Pageable.class))).thenReturn(pageResult);
+        when(albumRepository.findByUserId(any(Long.class), any(Pageable.class))).thenReturn(pageResult);
 
         assertEquals(result, albumService.getUserAlbums("user", 0, 10));
 
