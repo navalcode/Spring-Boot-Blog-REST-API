@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-	Page<Post> findByCreatedBy(Long userId, Pageable pageable);
+	Page<Post> findByUserId(Long UserId, Pageable pageable);
 
 	Page<Post> findByCategoryId(Long categoryId, Pageable pageable);
 

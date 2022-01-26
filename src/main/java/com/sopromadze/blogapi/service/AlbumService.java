@@ -12,7 +12,7 @@ public interface AlbumService {
 
 	PagedResponse<AlbumResponse> getAllAlbums(int page, int size);
 
-	ResponseEntity<Album> addAlbum(AlbumRequest albumRequest, UserPrincipal currentUser);
+	Album addAlbum(AlbumRequest albumRequest, UserPrincipal currentUser);
 
 	ResponseEntity<Album> getAlbum(Long id);
 
