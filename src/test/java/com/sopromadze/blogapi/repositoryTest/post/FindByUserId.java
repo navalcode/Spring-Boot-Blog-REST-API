@@ -25,14 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.sopromadze.blogapi.utils.AppConstants.CREATED_AT;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @ActiveProfiles ("test")
 @AutoConfigureTestDatabase (replace= AutoConfigureTestDatabase.Replace.NONE)
-@DirtiesContext (classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class FindByUserId {
 
     @Autowired
@@ -41,10 +41,16 @@ public class FindByUserId {
     @Autowired
     private TestEntityManager testEntityManager;
 
-    private User user;
 
-    @BeforeEach
-    void initTest(){
+    /*
+        Test:               Encontrar paginacion de Pots a través del id de usuario
+        Entrada:            Long UserId, Pageable
+        Salida esperada:    Pageable<posts from user> Resultado exitoso si
+     */
+    @Test
+    @DisplayName ("find Post pageable by user id")
+    void findByUserId_success(){
+
         Category c = new Category("category");
         c.setCreatedAt(Instant.now());
         c.setUpdatedAt(Instant.now());
@@ -60,7 +66,7 @@ public class FindByUserId {
         p.setComments(new ArrayList<>());
 
         //User creation
-        user = new User();
+        User user = new User();
 
         user.setEmail("user@email.com");
         user.setFirstName("FirstName");
@@ -77,37 +83,11 @@ public class FindByUserId {
         testEntityManager.persist(p);
         testEntityManager.persist(c);
         testEntityManager.persist(user);
-    }
-
-
-    /*
-        Test:               Encontrar paginacion de Pots a través del id de usuario
-        Entrada:            Long UserId, Pageable
-        Salida esperada:    Resultado exitoso si encuentra al User paginado por id
-     */
-    @Test
-    @DisplayName ("find Post pageable by user id")
-    void findByUserId_success(){
 
         Page<Post> result =postRepository.findByUserId(user.getId(),any(Pageable.class));
 
         assertEquals(1,user.getId(),"El id del usuario debe ser 1");
+
         assertTrue(result.getTotalElements()!=0,"El número de Pots nunca debe ser 0");
-    }
-
-    /*
-        Test:               Encontrar paginacion de Pots a través del id de usuario
-        Entrada:            Long UserId, Pageable
-        Salida esperada:    Resultado exitoso si no encuentra al User paginado por id
-     */
-    @Test
-    @DisplayName ("find Post pageable by user id")
-    void findByUserId_successWhenUserNull(){
-
-        Page<Post> result =postRepository.findByUserId(null,any(Pageable.class));
-
-        //assertEquals(0,result,"El usuario no debe existir");
-
-        assertFalse(result.getTotalElements()!=0,"El número de Pots debe ser 0");
     }
 }
