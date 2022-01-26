@@ -19,8 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.sopromadze.blogapi.utils.AppConstants.CREATED_AT;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -42,7 +40,6 @@ public class FindByPostId {
 
     @BeforeEach
     void init() {
-
 
         //User creation
         User u1 = new User();
@@ -79,6 +76,7 @@ public class FindByPostId {
 
         //Post creation
         Post p1 =new Post();
+        p1.setId(1L);
         p1.setTitle("Saint Santiago Stories");
         p1.setBody("Anyone knows facts or stories about the Saint Santiago and his white horse?");
         p1.setUser(u2);
@@ -99,6 +97,11 @@ public class FindByPostId {
 
     }
 
+    /*
+     * Test: Comprobar el buscar un comentario a partir del id de uno de sus post
+     * Entrada: 1L (como hemos puesto en el método al inicializar el testing)
+     * Salida esperada: Número de Comments>0
+     * */
     @Test
     @DisplayName("Find by post id success")
     void findByPostId_success() {
@@ -111,6 +114,11 @@ public class FindByPostId {
 
     }
 
+    /*
+     * Test: Comprobar el buscar un comentario a partir del id de uno de sus post
+     * Entrada: 25L (un id que no corresponde con ningún post)
+     * Salida esperada: Ningún Comment
+     * */
     @Test
     @DisplayName("Find by post id false")
     void findByPostId_fail() {
