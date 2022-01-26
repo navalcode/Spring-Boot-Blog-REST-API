@@ -21,9 +21,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.sopromadze.blogapi.utils.AppConstants.CREATED_AT;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -36,6 +38,8 @@ public class FindByTags {
 
     @Autowired
     private TestEntityManager testEntityManager;
+
+    private Tag tag;
 
     @BeforeEach
     void init() {
@@ -66,10 +70,12 @@ public class FindByTags {
         user.setCreatedAt(Instant.now());
         user.setUpdatedAt(Instant.now());
 
-        Tag tag = new Tag();
+        //Tag creation
+        tag = new Tag();
         tag.setName("Tag1");
         tag.setCreatedAt(Instant.now());
         tag.setUpdatedAt(Instant.now());
+
 
 
         p.setUser(user);
@@ -87,14 +93,32 @@ public class FindByTags {
 
     }
 
+
+    //Test: Find by tags
+    //Entrada: Collection tag, Pageable
+    //Salida esperada: Page<Post from tags>
     @Test
     @DisplayName("Find by tags")
     void findByTags_success() {
 
         Pageable pageable = PageRequest.of(1, 25, Sort.Direction.DESC, CREATED_AT);
 
-        Page<Post> result = postRepository.findByTagsIn(tgs, pageable);
+        Page<Post> result = postRepository.findByTagsIn(Collections.singletonList(tag), pageable);
 
         assertTrue(result.getTotalElements()!=0);
+    }
+
+    //Test: Find by non-existent tag
+    //Entrada: Collection tag, Pageable
+    //Salida esperada: page with no elements
+    @Test
+    @DisplayName("Find by non-existent tag")
+    void findByTags_fail() {
+
+        Pageable pageable = PageRequest.of(1, 25, Sort.Direction.DESC, CREATED_AT);
+
+        Page<Post> result = postRepository.findByTagsIn(Collections.singletonList(tag), pageable);
+
+        assertFalse(result.getTotalElements()==0);
     }
 }

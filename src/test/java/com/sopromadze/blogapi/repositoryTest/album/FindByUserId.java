@@ -75,8 +75,11 @@ public class FindByUserId {
 
     }
 
+    //Test: Find by user id.
+    //Entrada: Long userId, Pageable
+    //Salida espera: Page<album from user id>
     @Test
-    @DisplayName("Find by created by")
+    @DisplayName("Find by user id")
     void findByCreatedBy_success() {
 
         Pageable pageable = PageRequest.of(1, 25, Sort.Direction.DESC, CREATED_AT);
@@ -87,8 +90,11 @@ public class FindByUserId {
 
     }
 
+    //Test: Find by non-existent user
+    //Entrada: Long userId, Pageable
+    //Salida esperada: Page with no elements
     @Test
-    @DisplayName("Find by created by")
+    @DisplayName("Find by non-existent user id")
     void findByCreatedBy_fail() {
 
         Pageable pageable = PageRequest.of(1, 25, Sort.Direction.DESC, CREATED_AT);
