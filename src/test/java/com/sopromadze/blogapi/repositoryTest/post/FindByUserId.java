@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
@@ -31,6 +32,7 @@ import static org.mockito.ArgumentMatchers.any;
 @DataJpaTest
 @ActiveProfiles ("test")
 @AutoConfigureTestDatabase (replace= AutoConfigureTestDatabase.Replace.NONE)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class FindByUserId {
 
     @Autowired
