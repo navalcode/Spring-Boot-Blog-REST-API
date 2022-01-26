@@ -5,6 +5,7 @@ import com.sopromadze.blogapi.payload.AlbumResponse;
 import com.sopromadze.blogapi.payload.PagedResponse;
 import com.sopromadze.blogapi.repository.AlbumRepository;
 import com.sopromadze.blogapi.service.impl.AlbumServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -44,6 +45,7 @@ public class GetAllAlbums {
     //Test: Comprobar que consigue todos los albums
     //entrada: albumService.getAllAlbums(1,10)
     //salida esperada: el test se realiza con exito
+    @DisplayName("Get all albums")
     @Test
     void getAllAlbums_success(){
 
@@ -68,12 +70,45 @@ public class GetAllAlbums {
         resultadoEsperado.setLast(true);
         resultadoEsperado.setSize(1);
 
-        Pageable pageable = PageRequest.of(0,10);
-
         when(albumRepository.findAll(any(Pageable.class))).thenReturn(resultado);
         when(modelMapper.map(any(), any())).thenReturn(albumResponseList);
 
         assertEquals(resultadoEsperado, albumService.getAllAlbums(1,10));
+
+
+    }
+    //Test: Comprobar que devuelve un pageable vacio
+    //entrada: albumService.getAllAlbums(1,10)
+    //salida esperada: el test se realiza con exito
+    @DisplayName("Get all albums with 0 elements")
+    @Test
+    void getAllAlbums_successWhenTotalElementsIsZero(){
+
+        Album album = new Album();
+        album.setTitle("Título");
+        album.setCreatedAt(Instant.now());
+        album.setUpdatedAt(Instant.now());
+
+        AlbumResponse albumResponse = new AlbumResponse();
+        albumResponse.setId(1l);
+        albumResponse.setTitle("Título");
+
+        Page<Album> resultado = Page.empty();
+        List<AlbumResponse> resultado2 = Arrays.asList(albumResponse);
+        AlbumResponse[] albumResponseList = {};
+
+
+        PagedResponse<AlbumResponse> resultadoEsperado = new PagedResponse<>();
+        resultadoEsperado.setContent(resultado2);
+        resultadoEsperado.setTotalPages(1);
+        resultadoEsperado.setTotalElements(1);
+        resultadoEsperado.setLast(true);
+        resultadoEsperado.setSize(1);
+
+        when(albumRepository.findAll(any(Pageable.class))).thenReturn(resultado);
+        when(modelMapper.map(any(), any())).thenReturn(albumResponseList);
+
+        assertEquals(0, albumService.getAllAlbums(1,10).getTotalElements());
 
 
     }
