@@ -1,4 +1,4 @@
-package com.sopromadze.blogapi.serviceTest.album;
+package com.sopromadze.blogapi.serviceTest.album.album;
 
 
 import com.sopromadze.blogapi.model.Album;
