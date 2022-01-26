@@ -8,6 +8,7 @@ import com.sopromadze.blogapi.repository.AlbumRepository;
 import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.impl.AlbumServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +44,17 @@ public class AddAlbum {
     @InjectMocks
     AlbumServiceImpl albumService;
 
+    Album album;
+    AlbumRequest albumRequest;
+    UserPrincipal userPrincipal;
+
+    @BeforeEach
+    void InitTest(){
+        userPrincipal = new UserPrincipal(1L,"Pepe","Garcia", "Sony777","sony777@gmail.com","1234", Collections.emptyList());
+        album = new Album();
+        albumRequest= new AlbumRequest();
+    }
+
     /*
         Test:               Comprobar se añade un usuario a un nuevo album
         Entrada:            albumService.addAlbum(albumRequest,userPrincipal
@@ -56,8 +68,7 @@ public class AddAlbum {
 
         UserPrincipal userPrincipal = new UserPrincipal(1L,"Pepe","Garcia", "Sony777","sony777@gmail.com","1234", Collections.emptyList());
         when(userRepository.getUserByName(userPrincipal.getUsername())).thenReturn(user);
-        Album album = new Album();
-        AlbumRequest albumRequest= new AlbumRequest();
+
         album.setUser(userRepository.getUser(userPrincipal));
         when(albumRepository.save(album)).thenReturn(album);
 
@@ -76,8 +87,6 @@ public class AddAlbum {
     void addAlbum_SuccessWhenNull(UserPrincipal userPrincipal) {
 
         User user = new User();
-        Album album = new Album();
-        AlbumRequest albumRequest= new AlbumRequest();
         album.setUser(user);
         assertNull(albumService.addAlbum(albumRequest,userPrincipal));
 
