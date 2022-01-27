@@ -14,6 +14,7 @@ import com.sopromadze.blogapi.service.AlbumService;
 import com.sopromadze.blogapi.service.impl.AlbumServiceImpl;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +32,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -106,18 +108,21 @@ public class GetAllAlbums {
     }
 
 
-
+    /*
+    Test:               Petición de obtener todos los albums
+    Entrada:            get("/api/albums")
+    Salida esperada:    Test exitoso, codigo de respuesta correcto
+ */
+    @DisplayName("Get all album response code 200")
     @Test
+    //@WithUserDetails("admin")
     void GetAllAlbums_successWhenAccepted() throws Exception {
-
-
-        lenient().when(albumService.getAllAlbums(1,1)).thenReturn((PagedResponse<AlbumResponse>) result1element);
 
         mockMvc.perform(get("/api/albums")
                         .contentType("application/json")
                         .param("size", "1").param("page","1")
                         .content(objectMapper.writeValueAsString(objectMapper.writeValueAsString(result1element))))
-                .andExpect(status().isAccepted());
+                .andExpect(status().isOk());
 
 
     }
