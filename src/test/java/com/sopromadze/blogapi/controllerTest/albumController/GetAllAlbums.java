@@ -107,12 +107,11 @@ public class GetAllAlbums {
 
     }
 
-
     /*
     Test:               Petición de obtener todos los albums
     Entrada:            get("/api/albums")
     Salida esperada:    Test exitoso, codigo de respuesta correcto
- */
+    */
     @DisplayName("Get all album response code 200")
     @Test
     //@WithUserDetails("admin")
