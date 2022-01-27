@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 @DataJpaTest
 @ActiveProfiles ("test")
 @AutoConfigureTestDatabase (replace= AutoConfigureTestDatabase.Replace.NONE)
-@DirtiesContext (classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class FindByUserId {
 
     @Autowired

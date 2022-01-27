@@ -6,7 +6,6 @@ import com.sopromadze.blogapi.model.Post;
 import com.sopromadze.blogapi.model.Tag;
 import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.repository.PostRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,17 +22,18 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static com.sopromadze.blogapi.utils.AppConstants.CREATED_AT;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @ActiveProfiles("test")
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class FindByCategoryTest {
+public class FindByTags {
 
     @Autowired
     private PostRepository postRepository;
@@ -41,8 +41,10 @@ public class FindByCategoryTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
+    private Tag tag;
+
     @BeforeEach
-    void init(){
+    void init() {
         //Category creation
         Category ca = new Category("category");
         ca.setCreatedAt(Instant.now());
@@ -70,41 +72,55 @@ public class FindByCategoryTest {
         user.setCreatedAt(Instant.now());
         user.setUpdatedAt(Instant.now());
 
+        //Tag creation
+        tag = new Tag();
+        tag.setName("Tag1");
+        tag.setCreatedAt(Instant.now());
+        tag.setUpdatedAt(Instant.now());
+
+
+
         p.setUser(user);
         List<Tag> tgs= new ArrayList<Tag>();
+        tgs.add(tag);
         p.setTags(tgs);
         List<Post> lp= new ArrayList<Post>();
+        tag.setPosts(lp);
 
         testEntityManager.persist(p);
         testEntityManager.persist(ca);
         testEntityManager.persist(user);
+        testEntityManager.persist(tag);
+
+
     }
 
-    //Test: Find by category id.
-    //Entrada: Long categoryId, Pageable
-    //Salida esperada: Page<post from category name>
+
+    //Test: Find by tags
+    //Entrada: Collection tag, Pageable
+    //Salida esperada: Page<Post from tags>
     @Test
-    @DisplayName("Find by category")
-    void findByCateogy_success(){
+    @DisplayName("Find by tags")
+    void findByTags_success() {
 
         Pageable pageable = PageRequest.of(1, 25, Sort.Direction.DESC, CREATED_AT);
 
-        Page<Post> result =postRepository.findByCategoryId(1L,pageable);
+        Page<Post> result = postRepository.findByTagsIn(Collections.singletonList(tag), pageable);
 
         assertTrue(result.getTotalElements()!=0);
     }
 
-    //Test: Find by non-existent category .
-    //Entrada: Long categoryId, Pageable
-    //Salida esperada:  page with no elements
+    //Test: Find by non-existent tag
+    //Entrada: Collection tag, Pageable
+    //Salida esperada: page with no elements
     @Test
-    @DisplayName("Find by non-existent category")
-    void findByCateogy_fail(){
+    @DisplayName("Find by non-existent tag")
+    void findByTags_fail() {
 
         Pageable pageable = PageRequest.of(1, 25, Sort.Direction.DESC, CREATED_AT);
 
-        Page<Post> result =postRepository.findByCategoryId(0L,pageable);
+        Page<Post> result = postRepository.findByTagsIn(Collections.singletonList(tag), pageable);
 
-        assertFalse(result.getTotalElements()!=0);
+        assertFalse(result.getTotalElements()==0);
     }
 }

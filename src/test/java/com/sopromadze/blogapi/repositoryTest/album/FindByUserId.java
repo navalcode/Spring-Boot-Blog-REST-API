@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
@@ -28,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DataJpaTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class FindByUserId {
 
     @Autowired
@@ -75,8 +77,11 @@ public class FindByUserId {
 
     }
 
+    //Test: Find by user id.
+    //Entrada: Long userId, Pageable
+    //Salida espera: Page<album from user id>
     @Test
-    @DisplayName("Find by created by")
+    @DisplayName("Find by user id")
     void findByCreatedBy_success() {
 
         Pageable pageable = PageRequest.of(1, 25, Sort.Direction.DESC, CREATED_AT);
@@ -87,8 +92,11 @@ public class FindByUserId {
 
     }
 
+    //Test: Find by non-existent user
+    //Entrada: Long userId, Pageable
+    //Salida esperada: Page with no elements
     @Test
-    @DisplayName("Find by created by")
+    @DisplayName("Find by non-existent user id")
     void findByCreatedBy_fail() {
 
         Pageable pageable = PageRequest.of(1, 25, Sort.Direction.DESC, CREATED_AT);
