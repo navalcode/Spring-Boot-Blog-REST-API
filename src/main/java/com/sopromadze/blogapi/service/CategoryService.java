@@ -18,6 +18,6 @@ public interface CategoryService {
 	ResponseEntity<Category> updateCategory(Long id, Category newCategory, UserPrincipal currentUser)
 			throws UnauthorizedException;
 
-	ResponseEntity<ApiResponse> deleteCategory(Long id, UserPrincipal currentUser) throws UnauthorizedException;
+	ApiResponse deleteCategory(Long id, UserPrincipal currentUser) throws UnauthorizedException;
 
 }
