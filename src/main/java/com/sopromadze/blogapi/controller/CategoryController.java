@@ -60,7 +60,7 @@ public class CategoryController {
 
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable(name = "id") Long id,
+	public ApiResponse deleteCategory(@PathVariable(name = "id") Long id,
 			@CurrentUser UserPrincipal currentUser) throws UnauthorizedException {
 		return categoryService.deleteCategory(id, currentUser);
 	}
