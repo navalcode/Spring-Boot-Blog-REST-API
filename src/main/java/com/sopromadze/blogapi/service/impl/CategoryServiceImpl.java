@@ -70,12 +70,12 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public ResponseEntity<ApiResponse> deleteCategory(Long id, UserPrincipal currentUser) {
+	public ApiResponse deleteCategory(Long id, UserPrincipal currentUser) {
 		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("category", "id", id));
 		if (category.getCreatedBy().equals(currentUser.getId()) || currentUser.getAuthorities()
 				.contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
 			categoryRepository.deleteById(id);
-			return new ResponseEntity<>(new ApiResponse(Boolean.TRUE, "You successfully deleted category"), HttpStatus.OK);
+			return new ApiResponse(Boolean.TRUE, "You successfully deleted category");
 		}
 		throw new UnauthorizedException("You don't have permission to delete this category");
 	}
