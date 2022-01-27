@@ -43,6 +43,7 @@ public class FindByPostId {
     @BeforeEach
     void init() {
 
+
         //User creation
         User u1 = new User();
         u1.setEmail("randomUser1@gmail.com");
@@ -67,24 +68,31 @@ public class FindByPostId {
         c1.setName("The white horse");
         c1.setEmail("juan32@gmail.com");
         c1.setBody("The white horse that Santiago had, make him invincible");
+        c1.setCreatedAt(Instant.now());
+        c1.setUpdatedAt(Instant.now());
 
         //Category creation
         Category cat = new Category();
         cat.setName("History");
+        cat.setCreatedAt(Instant.now());
+        cat.setUpdatedAt(Instant.now());
 
         //Tag creation
         Tag t = new Tag();
         t.setName("Saint");
+        t.setCreatedAt(Instant.now());
+        t.setUpdatedAt(Instant.now());
 
         //Post creation
         Post p1 =new Post();
-        p1.setId(1L);
         p1.setTitle("Saint Santiago Stories");
         p1.setBody("Anyone knows facts or stories about the Saint Santiago and his white horse?");
         p1.setUser(u2);
         p1.setCategory(cat);
         p1.getComments().add(c1);
         p1.getTags().add(t);
+        p1.setCreatedAt(Instant.now());
+        p1.setUpdatedAt(Instant.now());
 
         c1.setPost(p1);
         cat.getPosts().add(p1);
@@ -99,11 +107,6 @@ public class FindByPostId {
 
     }
 
-    /*
-     * Test: Comprobar el buscar un comentario a partir del id de uno de sus post
-     * Entrada: 1L (como hemos puesto en el método al inicializar el testing)
-     * Salida esperada: Número de Comments>0
-     * */
     @Test
     @DisplayName("Find by post id success")
     void findByPostId_success() {
@@ -116,11 +119,6 @@ public class FindByPostId {
 
     }
 
-    /*
-     * Test: Comprobar el buscar un comentario a partir del id de uno de sus post
-     * Entrada: 25L (un id que no corresponde con ningún post)
-     * Salida esperada: Ningún Comment
-     * */
     @Test
     @DisplayName("Find by post id false")
     void findByPostId_fail() {
