@@ -54,11 +54,11 @@ public class Post extends UserDateAudit {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Comment> comments;
+	private List<Comment> comments = new ArrayList<>();
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
-	private List<Tag> tags;
+	private List<Tag> tags = new ArrayList<>();
 
 	@JsonIgnore
 	public User getUser() {

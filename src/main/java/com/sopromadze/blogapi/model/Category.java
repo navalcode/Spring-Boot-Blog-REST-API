@@ -36,7 +36,7 @@ public class Category extends UserDateAudit {
 	private String name;
 
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Post> posts;
+	private List<Post> posts = new ArrayList<>();
 
 	public Category(String name) {
 		super();
