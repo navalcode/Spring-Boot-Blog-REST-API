@@ -13,6 +13,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @TestConfiguration
 public class SpringSecurityTestConfig {
@@ -20,7 +21,7 @@ public class SpringSecurityTestConfig {
 
 
     //@Bean("customUserDetailsServiceImpl")
-    @Bean("customUserDetailsServiceImpl")
+    @Bean("customUserDetailsService")
     @Primary
     public UserDetailsService userDetailsService() {
 
@@ -31,8 +32,8 @@ public class SpringSecurityTestConfig {
         rolesUser.add(new Role(RoleName.ROLE_USER));
 
         User admin = new User ();
-                admin.setUsername("user");
-                admin.setPassword("user");
+                admin.setUsername("admin");
+                admin.setPassword("admin");
                 admin.setRoles(rolesAdmin);
         UserPrincipal AdminP= UserPrincipal.create(admin);
 
@@ -49,7 +50,7 @@ public class SpringSecurityTestConfig {
         usuariosPrincipales.add(UserP);
 
 
-        return new InMemoryUserDetailsManager((UserDetails) usuariosPrincipales);
+        return new InMemoryUserDetailsManager(List.of(AdminP,UserP));
 
     }
 }
