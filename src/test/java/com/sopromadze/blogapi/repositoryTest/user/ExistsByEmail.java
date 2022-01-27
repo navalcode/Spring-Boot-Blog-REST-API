@@ -1,9 +1,9 @@
 package com.sopromadze.blogapi.repositoryTest.user;
 
+
 import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,7 +13,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class FindByUsername {
+public class ExistsByEmail {
+
 
     @Autowired
     private UserRepository userRepository;
@@ -30,41 +30,41 @@ public class FindByUsername {
     @Autowired
     private TestEntityManager testEntityManager;
 
+
+    private User user ;
+
     @BeforeEach
     void init() {
-
-        //User creation
-        User user = new User();
-        user.setEmail("user@email.com");
-        user.setFirstName("FirstName");
-        user.setUsername("Username");
-        user.setLastName("Lastname");
-        user.setPassword("password");
+        user = new User();
+        user.setUsername("pedrito");
+        user.setEmail("pedro784@gmail.com");
+        user.setFirstName("Pedro");
+        user.setLastName("Garcia Muñóz");
+        user.setPassword("Contraseña.1");
         user.setCreatedAt(Instant.now());
         user.setUpdatedAt(Instant.now());
-
         testEntityManager.persist(user);
-    }
 
-    //Test: Find by username
-    //Entrada: String username
-    //Salida esperada: Optional<User from username>
+    }
+    /*
+        Test:               Encontrar usuario según su email
+        Entrada:            userRepository.existsByEmail(user.getEmail()))
+        Salida esperada:    True, si encuentra al usuario
+     */
     @Test
-    @DisplayName("Find by username")
-    void findByUsername_success() {
-        Optional<User> result = userRepository.findByUsername("Username");
-
-        assertTrue(result.isPresent());
+    void existsByEmail_success() {
+        assertTrue(userRepository.existsByEmail(user.getEmail()));
     }
 
-    //Test: Find by non-existent username
-    //Entrada: String username
-    //Salida esperada: Optional<User from username>
+    /*
+        Test:               No Encontrar usuario según un email incorrecto
+        Entrada:            userRepository.existsByEmail("emailIncorrecto@gmail.com"))
+        Salida esperada:    True, si no encuentra al usuario
+     */
     @Test
-    @DisplayName("Find by non-exists username")
-    void findByUsername_fail() {
-        Optional<User> result = userRepository.findByUsername("UsernameFalso");
+    void existsByEmail_successWhenEmailAlreadyNotExists() {
+        assertFalse(userRepository.existsByEmail("emailIncorrecto@gmail.com"));
 
-        assertFalse(result.isPresent());
     }
+
 }

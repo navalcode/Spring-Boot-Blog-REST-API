@@ -7,6 +7,7 @@ import com.sopromadze.blogapi.payload.PagedResponse;
 import com.sopromadze.blogapi.repository.AlbumRepository;
 import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.service.impl.AlbumServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,6 +38,10 @@ public class VerifyMockito {
     @InjectMocks
     AlbumServiceImpl albumService;
 
+    @BeforeEach
+    void init (){
+
+    }
 
     @Test
     void testWithMockito_SuccessYaPorFin() {
