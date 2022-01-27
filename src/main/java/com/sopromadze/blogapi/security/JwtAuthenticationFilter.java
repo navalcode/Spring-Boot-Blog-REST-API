@@ -1,6 +1,7 @@
 package com.sopromadze.blogapi.security;
 
 import com.sopromadze.blogapi.service.CustomUserDetailsService;
+import com.sopromadze.blogapi.service.impl.CustomUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
