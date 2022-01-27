@@ -10,6 +10,7 @@ import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.service.impl.AlbumServiceImpl;
 import com.sopromadze.blogapi.service.impl.CategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -57,7 +58,7 @@ public class GetAllCategories {
         category.setName("categoria1");
         category.setCreatedAt(Instant.now());
         category.setUpdatedAt(Instant.now());
-        Page<Category> categories = new PageImpl<>(Arrays.asList(category));
+        Page<Category> categories = new PageImpl<>(Collections.singletonList(category));
         System.out.println(categories);
 
 
@@ -80,14 +81,16 @@ public class GetAllCategories {
         Salida esperada:    El test se realiza con exito
     */
     @Test
+    @DisplayName("Get all categories")
     void getAllCategories_success()  {
 
         assertEquals(resultadoEsperado,categoryService.getAllCategories(1,1));
     }
 
     @Test
+    @DisplayName("Not getting category list")
     void getAllCategories_success_fail(){
-
+        assertNotEquals(new PagedResponse<>(),categoryService.getAllCategories(1,1));
     }
 
 
