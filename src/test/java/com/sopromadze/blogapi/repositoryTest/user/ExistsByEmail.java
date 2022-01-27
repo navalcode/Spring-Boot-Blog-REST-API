@@ -4,6 +4,7 @@ package com.sopromadze.blogapi.repositoryTest.user;
 import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -51,6 +52,7 @@ public class ExistsByEmail {
         Entrada:            userRepository.existsByEmail(user.getEmail()))
         Salida esperada:    True, si encuentra al usuario
      */
+    @DisplayName("Check by email")
     @Test
     void existsByEmail_success() {
         assertTrue(userRepository.existsByEmail(user.getEmail()));
@@ -61,6 +63,7 @@ public class ExistsByEmail {
         Entrada:            userRepository.existsByEmail("emailIncorrecto@gmail.com"))
         Salida esperada:    True, si no encuentra al usuario
      */
+    @DisplayName("Check by wrong email")
     @Test
     void existsByEmail_successWhenEmailAlreadyNotExists() {
         assertFalse(userRepository.existsByEmail("emailIncorrecto@gmail.com"));
