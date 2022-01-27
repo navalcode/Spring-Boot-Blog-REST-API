@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,8 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,12 +76,15 @@ public class addCategory {
         assertEquals(categoryService.addCategory(category, userPrincipal), response);
     }
 
+    //Test: Comprobar que no se agrega una nueva categoría
+    //Entrada: category, user
+    //Salida esperada: ResponseEntity<>(category, created)
     @DisplayName("Fail to add category")
     @Test
     void addCategory_fail() {
         ResponseEntity<Category> response = new ResponseEntity<>(category, HttpStatus.CREATED);
         when(categoryRepository.save(categoryEmpty)).thenReturn(categoryEmpty);
-        assertNull(categoryService.addCategory(categoryEmpty, userPrincipal));
+        assertNotEquals(categoryService.addCategory(categoryEmpty, userPrincipal), response);
     }
 
 
