@@ -46,10 +46,6 @@ public class ExistsByEmail {
         testEntityManager.persist(user);
 
     }
-
-
-
-
     /*
         Test:               Encontrar usuario según su email
         Entrada:            userRepository.existsByEmail(user.getEmail()))
