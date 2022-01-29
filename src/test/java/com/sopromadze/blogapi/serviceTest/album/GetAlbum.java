@@ -27,16 +27,13 @@ public class GetAlbum {
     @Mock
     private AlbumRepository albumRepository;
 
-    @Mock
-    private ModelMapper modelMapper;
-
     @InjectMocks
     AlbumServiceImpl albumService;
 
     /*
     * Test: Comprobar que el servicio devuelve un ResponseEntity<Album>
     * Entrada: 1L (id contenido en el repositorio)
-    * Salida esperada: Optional<Album>
+    * Salida esperada: ResponseEntity<Album>
     * */
     @Test
     void getAlbum_success(){
