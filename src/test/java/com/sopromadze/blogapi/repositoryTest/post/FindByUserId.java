@@ -89,7 +89,7 @@ public class FindByUserId {
     @DisplayName ("find Post pageable by user id")
     void findByUserId_success(){
 
-        Page<Post> result =postRepository.findByUserId(user.getId(),any(Pageable.class));
+        Page<Post> result =postRepository.findByUserId(user.getId(),Pageable.ofSize(2));
 
         assertEquals(1,user.getId(),"El id del usuario debe ser 1");
         assertTrue(result.getTotalElements()!=0,"El número de Pots nunca debe ser 0");
@@ -104,7 +104,7 @@ public class FindByUserId {
     @DisplayName ("find Post pageable by user id")
     void findByUserId_successWhenUserNull(){
 
-        Page<Post> result =postRepository.findByUserId(null,any(Pageable.class));
+        Page<Post> result =postRepository.findByUserId(null,Pageable.unpaged());
 
         //assertEquals(0,result,"El usuario no debe existir");
 
