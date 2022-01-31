@@ -2,6 +2,8 @@ package com.sopromadze.blogapi.serviceTest.album;
 
 
 import com.sopromadze.blogapi.model.Album;
+import com.sopromadze.blogapi.model.role.Role;
+import com.sopromadze.blogapi.model.role.RoleName;
 import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.payload.request.AlbumRequest;
 import com.sopromadze.blogapi.repository.AlbumRepository;
@@ -24,8 +26,8 @@ import org.mockito.quality.Strictness;
 import org.modelmapper.ModelMapper;
 
 import java.util.Collections;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -67,7 +69,6 @@ public class AddAlbum {
         User user = new User("Pepe","Garcia", "Sony777","sony777@gmail.com","1234");
         user.setId(1L);
 
-        UserPrincipal userPrincipal = new UserPrincipal(1L,"Pepe","Garcia", "Sony777","sony777@gmail.com","1234", Collections.emptyList());
         when(userRepository.getUserByName(userPrincipal.getUsername())).thenReturn(user);
 
         album.setUser(userRepository.getUser(userPrincipal));
@@ -83,13 +84,13 @@ public class AddAlbum {
         Salida esperada:    La respuesta deberia ser nula siendo el usuarioPrincipal nulo
     */
     @DisplayName("Not added Album to User (null)")
-    @ParameterizedTest
-    @NullSource
-    void addAlbum_SuccessWhenNull(UserPrincipal userPrincipal) {
+    @Test
+    void addAlbum_SuccessWhenNull() {
 
         User user = new User();
+        user.setRoles(List.of(new Role(RoleName.ROLE_USER)));
         album.setUser(user);
-        assertNull(albumService.addAlbum(albumRequest,userPrincipal));
+        assertNull(albumService.addAlbum(albumRequest,UserPrincipal.create(user)));
 
     }
 }

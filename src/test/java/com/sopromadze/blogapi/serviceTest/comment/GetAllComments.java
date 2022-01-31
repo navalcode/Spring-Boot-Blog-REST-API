@@ -16,6 +16,7 @@ import com.sopromadze.blogapi.service.impl.CommentServiceImpl;
 import com.sopromadze.blogapi.utils.AppUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -54,7 +55,6 @@ public class GetAllComments {
         List<Role> rolesUser = new ArrayList<Role>();
         rolesUser.add(new Role(RoleName.ROLE_USER));
 
-        //Create user
         user = new User();
         user.setId(1L);
         user.setUsername("user");
@@ -80,6 +80,7 @@ public class GetAllComments {
 
     }
 
+    @DisplayName("Get all comments")
     @Test
     void getAllComments_success() {
         AppUtils.validatePageNumberAndSize(1, 1);
@@ -97,6 +98,12 @@ public class GetAllComments {
 
     }
 
+    /*
+    Test:               Comprobar la excepcion de la paginacion con todas los comments cuando no se añade contenido a la paginacion
+    Entrada:            categoryService.getAllComments(postId (0L),page(1),size(1))
+    Salida esperada:    El test se realiza con exito
+    */
+    @DisplayName("Get all comments fail")
     @Test
     void getAllComments_success_fail() {
         assertThrows(NullPointerException.class ,
