@@ -44,6 +44,7 @@ public class GetAllPhotosByAlbum {
     Page resultado;
     List<PhotoResponse> resultado2;
     PagedResponse<PhotoResponse> resultadoEsperado;
+    Pageable pageable;
 
     @BeforeEach
     void init() {
@@ -67,6 +68,7 @@ public class GetAllPhotosByAlbum {
         resultadoEsperado.setTotalElements(1);
         resultadoEsperado.setLast(true);
         resultadoEsperado.setSize(1);
+        pageable = PageRequest.of(1, 10);
 
 
 
@@ -79,7 +81,7 @@ public class GetAllPhotosByAlbum {
     void getAllPhotosByAlbum_success() {
 
         PhotoResponse[] photoResponseList = {photoResponse};
-        when(photoRepository.findByAlbumId(album.getId(), any(Pageable.class))).thenReturn(resultado);
+        when(photoRepository.findByAlbumId(album.getId(), pageable)).thenReturn(resultado);
         when(modelMapper.map(any(), any())).thenReturn(photoResponseList);
 
         assertEquals(resultadoEsperado, photoService.getAllPhotosByAlbum(album.getId(), 1, 10));
