@@ -52,13 +52,6 @@ public class addCategory {
     CategoryServiceImpl categoryService;
 
     Category category;
-
-    UserPrincipal userPrincipal;
-
-    @BeforeEach
-    void init() {
-        User user = new User("Usuario1", "Apellido1", "Username", "usuario@gmail.com", "1234");
-
     Category categoryEmpty;
     UserPrincipal userPrincipal;
     User user;
@@ -75,13 +68,7 @@ public class addCategory {
         category = new Category("Categoria 1");
 
     }
-
-
-        categoryEmpty = new Category();
-
-    }
-
-
+    
     //Test: Comprobar que se añade una nueva categoria
     //Entrada: category, user
     //Salida esperada: ResponseEntity<>(category, created)
