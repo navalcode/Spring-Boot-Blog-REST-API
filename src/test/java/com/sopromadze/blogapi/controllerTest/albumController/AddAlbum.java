@@ -45,29 +45,52 @@ public class AddAlbum {
     * */
     @Test
     @DisplayName("Controller Add Album success")
-    @WithUserDetails("UserP")
+    @WithUserDetails("user")
     void addAlbum_success() throws Exception {
-        List<Role> rolesUser = new ArrayList<Role>();
-        rolesUser.add(new Role(RoleName.ROLE_USER));
-
-        User user = new User();
-        user.setFirstName("user");
-        user.setLastName("user");
-        user.setEmail("user@email.com");
-        user.setUsername("user");
-        user.setPassword("user");
-        user.setRoles(rolesUser);
-        UserPrincipal userPrincipal= UserPrincipal.create(user);
 
         Album album = new Album();
-        album.setUser(user);
 
         when(albumService.addAlbum(Mockito.any(), Mockito.any())).thenReturn(album);
 
         mockMvc.perform(post("/api/albums")
-                .contentType("aplication/json")
+                .contentType("application/json")
                 .content(objectMapper.writeValueAsString(album)))
                 .andExpect(status().isCreated());
 
     }
+
+    /*
+    * Test:Check if addAlbum throws 401 when there is no user
+    * Input:AlbumRequest , no User
+    * Output:Throws Unauthorized Exception
+    * */
+    @Test
+    @DisplayName("Controller Add Album unauthorized")
+    void addAlbum_forbidden() throws Exception {
+
+        Album album = new Album();
+
+        mockMvc.perform(post("/api/albums")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(album)))
+                .andExpect(status().isUnauthorized());
+
+    }
+
+    /*
+    * Test:Check if addAlbum returns 400 when there is no albumRequest
+    * Input:no AlbumRequest, UserPrincipal
+    * Output:Throws Bad Request Exception
+    * */
+    @Test
+    @DisplayName("Controller Add Album bad request")
+    @WithUserDetails("user")
+    void addAlbum_badRequest() throws Exception {
+
+        mockMvc.perform(post("/api/albums")
+                .contentType("application/json")
+                .content(""))
+                .andExpect(status().isBadRequest());
+    }
+
 }
