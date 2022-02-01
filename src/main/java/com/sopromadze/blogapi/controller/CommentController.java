@@ -78,7 +78,8 @@ public class CommentController {
 
 		ApiResponse response = commentService.deleteComment(postId, id, currentUser);
 
-		HttpStatus status = response.getSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+		HttpStatus status = response.getSuccess() ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND;
+
 
 		return new ResponseEntity<>(response, status);
 	}
