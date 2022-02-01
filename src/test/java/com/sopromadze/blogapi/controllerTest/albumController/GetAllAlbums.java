@@ -36,6 +36,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -53,8 +54,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @Log
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {SpringSecurityTestConfig.class})
+//@WebMvcTest(controllers = AlbumController.class)
 @AutoConfigureMockMvc
 public class GetAllAlbums {
 
@@ -80,6 +83,7 @@ public class GetAllAlbums {
     void initTest() {
         User user = new User("Pepe","Garcia", "Sony777","sony777@gmail.com","1234");
         user.setId(1L);
+
         UserPrincipal userPrincipal = new UserPrincipal(1L,"Pepe","Garcia", "Sony777","sony777@gmail.com","1234", Collections.emptyList());
         Album album = new Album();
         album.setUser(userRepository.getUser(userPrincipal));
@@ -117,10 +121,11 @@ public class GetAllAlbums {
     //@WithUserDetails("admin")
     void GetAllAlbums_successWhenAccepted() throws Exception {
 
-        mockMvc.perform(get("/api/albums")
+         mockMvc.perform(get("/api/albums")
                         .contentType("application/json")
                         .param("size", "1").param("page","1")
-                        .content(objectMapper.writeValueAsString(objectMapper.writeValueAsString(result1element))))
+                        .content(objectMapper.writeValueAsString(objectMapper.writeValueAsString(result1element)))
+                                )
                 .andExpect(status().isOk());
 
 

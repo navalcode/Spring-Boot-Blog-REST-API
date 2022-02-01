@@ -17,5 +17,4 @@ public class PhotoResponse {
 		this.thumbnailUrl = thumbnailUrl;
 		this.albumId = albumId;
 	}
-
 }
