@@ -72,7 +72,7 @@ public class AddTag {
     //salida esperada: El test añade correctamente
     @DisplayName("add tag")
     @Test
-    void addTag(){
+    void addTag_success(){
         when(tagRepository.save(tag)).thenReturn(tag);
         assertEquals(tag,tagService.addTag(tag,userPrincipal));
     }
