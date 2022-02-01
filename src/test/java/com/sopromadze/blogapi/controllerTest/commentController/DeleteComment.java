@@ -34,20 +34,9 @@ public class DeleteComment {
     @MockBean
     private CommentServiceImpl commentService;
 
-    private Comment comment;
-    private Post post;
-
-    @BeforeEach
-    void init(){
-        comment = new Comment();
-        comment.setId(1L);
-
-        post = new Post();
-        post.setId(1L);
-    }
-    /*Test:
+    /*Test:Check if delete Comment works
     * Input:Long PostId,Long commentId, UserPrincipal current
-    * Output:ResponseEntity<?> (ApiResponse.success, status.OK)
+    * Output:ResponseEntity<?> (ApiResponse.success, status.No_Content)
     * */
     @Test
     @DisplayName("Delete comment success for authorized user")
@@ -57,9 +46,8 @@ public class DeleteComment {
 
         when(commentService.deleteComment(Mockito.anyLong(), Mockito.anyLong(), Mockito.any())).thenReturn(apiResponse);
         mockMvc.perform(delete("/api/posts/{postId}/comments/{id}", 1L, 1L)
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(comment)))
-                 .andExpect(status().isOk());
+                        .contentType("application/json"))
+                 .andExpect(status().isNoContent());
     }
 
     /*
@@ -74,26 +62,24 @@ public class DeleteComment {
 
         when(commentService.deleteComment(Mockito.anyLong(), Mockito.anyLong(), Mockito.any())).thenReturn(apiResponse);
         mockMvc.perform(delete("/api/posts/{postId}/comments/{id}", 1L, 1L)
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(comment)))
+                        .contentType("application/json"))
                  .andExpect(status().isUnauthorized());
     }
 
     /*
-    * Test:Check if delete comment throws bad request exception
+    * Test:Check if delete comment throws not found exception
     * Input:Long PostId,Long commentId, UserPrincipal current
     * Output:ResponseEntity<?> (ApiResponse.error, status.NOT_FOUND)
     * */
     @Test
-    @DisplayName("Delete comment bad request")
+    @DisplayName("Delete comment not found")
     @WithUserDetails("user")
     public void notFoundDeleteComment() throws Exception {
-        ApiResponse apiResponse = new ApiResponse(false, "Bad request");
+        ApiResponse apiResponse = new ApiResponse(false, "Not found");
 
         when(commentService.deleteComment(Mockito.anyLong(), Mockito.anyLong(), Mockito.any())).thenReturn(apiResponse);
         mockMvc.perform(delete("/api/posts/{postId}/comments/{id}", 1L, 1L)
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(comment)))
-                 .andExpect(status().isBadRequest());
+                        .contentType("application/json"))
+                 .andExpect(status().isNotFound());
     }
 }
