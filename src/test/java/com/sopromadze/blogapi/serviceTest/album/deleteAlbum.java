@@ -124,7 +124,7 @@ public class deleteAlbum {
 
     /* Test: Comprobar que no borra un album porque ni el usuario que quiere borrarlo es admin ni es su propietario
     entrada: albumService.deleteAlbum(albumid, UserPrincipal)
-    salida esperada: un código 403, de haber borrado exitosamente el álbum */
+    salida esperada: BlogapiException, formada por un código 403 y un mensaje */
     @Test
     void deleteAlbum_userWithoutAdminRole(){
 
