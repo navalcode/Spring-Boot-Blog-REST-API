@@ -45,6 +45,7 @@ public class GetPost {
     @DisplayName("Get post")
     @Test
     void getPost_return200() throws Exception{
+
         Post post = new Post();
         post.setId(1L);
 

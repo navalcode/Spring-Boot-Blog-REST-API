@@ -46,7 +46,6 @@ public class GetTag {
     @DisplayName("Get tag")
     @Test
     void getTag_return200() throws Exception{
-
         Tag tag = new Tag();
         tag.setId(1L);
 
