@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,6 +34,9 @@ public class UpdateUser {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @MockBean
     private UserServiceImpl userService;
 
@@ -41,30 +45,29 @@ public class UpdateUser {
     @BeforeEach
     void init() {
         user = new User();
-        user.setId(1L);
-        user.setFirstName("FirstName");
-        user.setEmail("Email@gmail.com");
-        user.setLastName("LastName");
-        user.setPassword("password");
-        user.setUsername("Username");
+
+        user.setFirstName("user");
+        user.setEmail("user@gmail.com");
+        user.setLastName("user");
+        user.setPassword("user");
+        user.setUsername("user");
     }
 
     @Test
     @DisplayName("Controller update user success")
-    @WithMockUser(authorities = {"ROLE_USER","ROLE_ADMIN"})
+    @WithUserDetails("user")
     void updateUser_success() throws Exception {
-        ResponseEntity<User> expected = ResponseEntity.ok(user);
         String userJson = objectMapper.writeValueAsString(user);
 
-        //when(userService.updateUser(Mockito.any(), Mockito.anyString(), Mockito.any())).thenReturn(expected);
+        when(userService.updateUser(Mockito.any(), Mockito.anyString(), Mockito.any())).thenReturn(user);
 
-        MvcResult mvcResult = mockMvc.perform(put("/api/users/{username}", "Username")
+        MvcResult mvcResult = mockMvc.perform(put("/api/users/{username}", "user")
                 .contentType("application/json")
                 .content(userJson))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isCreated()).andReturn();
 
         String actual = mvcResult.getResponse().getContentAsString();
-        String expectedJson = objectMapper.writeValueAsString(expected.getBody());
+        String expectedJson = objectMapper.writeValueAsString(user);
         assertEquals(expectedJson, actual);
     }
 
