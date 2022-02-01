@@ -4,13 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
 import com.sopromadze.blogapi.model.Album;
 import com.sopromadze.blogapi.model.Post;
+import com.sopromadze.blogapi.model.Tag;
 import com.sopromadze.blogapi.service.PostService;
+import com.sopromadze.blogapi.service.impl.PostServiceImpl;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,22 +33,21 @@ public class GetPost {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
+    @MockBean
     private PostService postService;
 
 
     /*
     Test:               Petición de obtener un post
-    Entrada:            get("/api/categories/{id}/",any(Long.class))
+    Entrada:            get("/api/posts/{id}/",any(Long.class))
     Salida esperada:    Test exitoso, codigo de respuesta correcto (200)
     */
     @DisplayName("Get post")
     @Test
     void getPost_return200() throws Exception{
-        Post post= new Post();
-        post.setId(1L);
 
-        ResponseEntity<Post> result = new ResponseEntity<>(post, HttpStatus.OK);
+        Post post = new Post();
+        post.setId(1L);
 
         when(postService.getPost(1L)).thenReturn(post);
 
