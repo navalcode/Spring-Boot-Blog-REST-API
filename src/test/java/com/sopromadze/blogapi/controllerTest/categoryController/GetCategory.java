@@ -48,7 +48,6 @@ public class GetCategory {
     @DisplayName("Get category")
     @Test
     void getCategory_return200() throws Exception{
-
         mockMvc.perform(get("/api/categories/{id}/",any(Long.class))
                         .contentType("application/json"))
                 .andExpect(status().isOk());
