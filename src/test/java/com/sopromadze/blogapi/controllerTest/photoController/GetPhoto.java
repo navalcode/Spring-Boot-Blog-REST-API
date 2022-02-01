@@ -37,4 +37,5 @@ public class GetPhoto {
                         .contentType("application/json"))
                 .andExpect(status().isOk());
     }
+
 }
