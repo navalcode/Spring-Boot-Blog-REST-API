@@ -20,8 +20,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.sopromadze.blogapi.utils.AppConstants.CREATED_AT;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -70,14 +68,20 @@ public class FindByPostId {
         c1.setName("The white horse");
         c1.setEmail("juan32@gmail.com");
         c1.setBody("The white horse that Santiago had, make him invincible");
+        c1.setCreatedAt(Instant.now());
+        c1.setUpdatedAt(Instant.now());
 
         //Category creation
         Category cat = new Category();
         cat.setName("History");
+        cat.setCreatedAt(Instant.now());
+        cat.setUpdatedAt(Instant.now());
 
         //Tag creation
         Tag t = new Tag();
         t.setName("Saint");
+        t.setCreatedAt(Instant.now());
+        t.setUpdatedAt(Instant.now());
 
         //Post creation
         Post p1 =new Post();
@@ -87,6 +91,8 @@ public class FindByPostId {
         p1.setCategory(cat);
         p1.getComments().add(c1);
         p1.getTags().add(t);
+        p1.setCreatedAt(Instant.now());
+        p1.setUpdatedAt(Instant.now());
 
         c1.setPost(p1);
         cat.getPosts().add(p1);

@@ -1,7 +1,7 @@
-package com.sopromadze.blogapi.controllerTest.categoryController;
+package com.sopromadze.blogapi.controllerTest.albumController;
 
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
-import com.sopromadze.blogapi.service.CategoryService;
+import com.sopromadze.blogapi.service.AlbumService;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,28 +18,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Log
 @SpringBootTest(classes = TestDisableSecurityConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class DeleteCategory {
+public class DeleteAlbum {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CategoryService categoryService;
+    private AlbumService albumService;
 
-    @DisplayName("delete category with role user or role admin")
+    //Test: comprobar que devuelve un 200
+    //entrada: delete("/api/albums/{id}",1L
+    //salida esperada: el test funciona correctamente
+    @DisplayName("delete album with a user admin or a user user")
     @Test
-    @WithMockUser(authorities = {"ROLE_ADMIN", "ROLE_USER"})
-    void deleteCategory_return200() throws Exception {
-        mockMvc.perform(delete("/api/categories/{id}", 1L)
-                .contentType("application/json"))
+    @WithMockUser(authorities = {"ROLE_ADMIN","ROLE_USER"})
+    void deleteAlbum_return200() throws Exception {
+        mockMvc.perform(delete("/api/albums/{id}",1L)
+                        .contentType("application/json"))
                 .andExpect(status().isOk());
     }
-
-    @DisplayName("Delete category without authorities")
+    //Test: comprobar que devuelve un 403 porque el usuario no tiene permisos
+    //entrada: delete("/api/albums/{id}",1L
+    //salida esperada: el test funciona correctamente
+    @DisplayName("delete album without authorities")
     @Test
-    void deleteCategory_return403() throws Exception {
-        mockMvc.perform(delete("/api/categories/{id}", 1L)
-                .contentType("application/json"))
+    void deleteAlbum_return403() throws Exception {
+        mockMvc.perform(delete("/api/albums/{id}",1L)
+                        .contentType("application/json"))
                 .andExpect(status().isForbidden());
     }
 }

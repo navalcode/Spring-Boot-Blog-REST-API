@@ -20,24 +20,30 @@ public class SpringSecurityTestConfig {
 
 
 
-    //@Bean("customUserDetailsServiceImpl")
-    @Bean("customUserDetailsService")
+    @Bean("CustomUserDetailsServiceImpl")
     @Primary
     public UserDetailsService userDetailsService() {
 
         List<Role> rolesAdmin = new ArrayList<Role>();
         rolesAdmin.add(new Role(RoleName.ROLE_ADMIN));
         rolesAdmin.add(new Role(RoleName.ROLE_USER));
+
         List<Role> rolesUser = new ArrayList<Role>();
         rolesUser.add(new Role(RoleName.ROLE_USER));
 
         User admin = new User ();
+                admin.setFirstName("admin");
+                admin.setLastName("admin");
+                admin.setEmail("admin@email.com");
                 admin.setUsername("admin");
                 admin.setPassword("admin");
                 admin.setRoles(rolesAdmin);
         UserPrincipal AdminP= UserPrincipal.create(admin);
 
         User user = new User();
+                user.setFirstName("user");
+                user.setLastName("user");
+                user.setEmail("user@email.com");
                 user.setUsername("user");
                 user.setPassword("user");
         user.setRoles(rolesUser);
