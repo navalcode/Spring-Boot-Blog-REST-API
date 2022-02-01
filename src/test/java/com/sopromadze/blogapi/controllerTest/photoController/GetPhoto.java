@@ -17,12 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Log
 @SpringBootTest(classes = TestDisableSecurityConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-
 public class GetPhoto {
 
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private PhotoService photoService;
 
