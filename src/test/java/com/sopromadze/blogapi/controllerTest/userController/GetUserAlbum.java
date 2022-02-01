@@ -8,27 +8,20 @@ import com.sopromadze.blogapi.model.role.Role;
 import com.sopromadze.blogapi.model.role.RoleName;
 import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.payload.PagedResponse;
-import com.sopromadze.blogapi.payload.UserSummary;
-import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.AlbumService;
 import com.sopromadze.blogapi.service.UserService;
 import lombok.extern.java.Log;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,12 +46,12 @@ public class GetUserAlbum {
 
 
     /*
-     Test:               Petición para mostrar los albums del usuario legado
+     Test:               Petición para mostrar los albums del usuario
      Entrada:            get("/api/users/{username}/albums","Pepe777")
      Salida esperada:    Test exitoso, codigo de respuesta correcto (200)
      */
     @Test
-    void currentUser_success() throws Exception{
+    void getUserAlbum_success() throws Exception{
 
 
         User user = new User();
@@ -70,15 +63,9 @@ public class GetUserAlbum {
         List<Role> rolesUser = new ArrayList<Role>();
         rolesUser.add(new Role(RoleName.ROLE_USER));
         user.setRoles(rolesUser);
-        UserPrincipal userP = UserPrincipal.create(user);
-        UserSummary result= new UserSummary(user.getId(),user.getUsername(),user.getFirstName(),user.getLastName());
-
-        when(userService.getCurrentUser(userP)).thenReturn(result);
 
         Album album = new Album();
         album.setUser(user);
-
-
         PagedResponse<Album> response = new PagedResponse<>();
         response.setContent(List.of(album));
 
