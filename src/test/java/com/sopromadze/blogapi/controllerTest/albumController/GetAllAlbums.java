@@ -55,7 +55,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @Log
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {SpringSecurityTestConfig.class})
 //@WebMvcTest(controllers = AlbumController.class)
@@ -82,6 +81,9 @@ public class GetAllAlbums {
 
     @BeforeEach
     void initTest() {
+        User user = new User("Pepe","Garcia", "Sony777","sony777@gmail.com","1234");
+        user.setId(1L);
+
         UserPrincipal userPrincipal = new UserPrincipal(1L,"Pepe","Garcia", "Sony777","sony777@gmail.com","1234", Collections.emptyList());
         Album album = new Album();
         album.setUser(userRepository.getUser(userPrincipal));
