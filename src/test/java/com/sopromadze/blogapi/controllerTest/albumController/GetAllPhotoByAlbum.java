@@ -89,7 +89,6 @@ public class GetAllPhotoByAlbum {
     @DisplayName ("Get all photo by album response code 200")
     @Test
     void GetAllPhotoByAlbum_successWhenAccepted() throws Exception {
-
         mockMvc.perform(get("/api/albums/{id}/photos",1L)
                         .contentType("application/json")
                         .param("size", "1").param("page","1"))
