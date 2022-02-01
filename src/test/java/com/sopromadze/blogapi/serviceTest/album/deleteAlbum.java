@@ -12,6 +12,7 @@ import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.impl.AlbumServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -64,8 +65,8 @@ public class deleteAlbum {
                 "frenandoalonso20",
                 "frenandoalonso20@gmail.com",
                 "1234");
-            adminUser.setId(1L);
-            adminUser.setRoles(adminRoles);
+        adminUser.setId(1L);
+        adminUser.setRoles(adminRoles);
 
         //Normal user roles creation
         userRoles = new ArrayList<>();
@@ -78,8 +79,8 @@ public class deleteAlbum {
                 "fiaunnnnnn20",
                 "fiaunnnnn20@gmail.com",
                 "1111");
-            casualUser.setId(2L);
-            casualUser.setRoles(userRoles);
+        casualUser.setId(2L);
+        casualUser.setRoles(userRoles);
 
         //albumPropertyUser creation
         propertyUser = new User(
@@ -99,6 +100,7 @@ public class deleteAlbum {
     /* Test: Comprobar que borra un album
     entrada: albumService.deleteAlbum(albumid, UserPrincipal)
     salida esperada: un código 200, de haber borrado exitosamente el álbum */
+    @DisplayName("delete album successfully")
     @Test
     void deleteAlbum_success(){
 
@@ -125,6 +127,7 @@ public class deleteAlbum {
     /* Test: Comprobar que no borra un album porque ni el usuario que quiere borrarlo es admin ni es su propietario
     entrada: albumService.deleteAlbum(albumid, UserPrincipal)
     salida esperada: BlogapiException, formada por un código 403 y un mensaje */
+    @DisplayName("deleteAlbum without permissions")
     @Test
     void deleteAlbum_userWithoutAdminRole(){
 
