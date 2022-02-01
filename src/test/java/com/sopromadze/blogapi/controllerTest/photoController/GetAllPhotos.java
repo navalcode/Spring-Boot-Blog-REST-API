@@ -11,6 +11,7 @@ import com.sopromadze.blogapi.payload.PagedResponse;
 import com.sopromadze.blogapi.payload.PhotoResponse;
 import com.sopromadze.blogapi.repository.UserRepository;
 import com.sopromadze.blogapi.security.UserPrincipal;
+import com.sopromadze.blogapi.service.PhotoService;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,6 +37,9 @@ public class GetAllPhotos {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private PhotoService service;
 
     Photo photo;
     PagedResponse<PhotoResponse> resultadoEsperado;
