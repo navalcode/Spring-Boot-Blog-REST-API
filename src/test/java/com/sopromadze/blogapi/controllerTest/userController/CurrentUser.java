@@ -9,6 +9,7 @@ import com.sopromadze.blogapi.payload.UserSummary;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.UserService;
 import lombok.extern.java.Log;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -46,6 +47,7 @@ public class CurrentUser {
      */
     @Test
     @WithMockUser(authorities = {"ROLE_USER"})
+    @DisplayName ("Current user successfully")
     void currentUser_success() throws Exception{
 
         User user = new User();
@@ -76,6 +78,7 @@ public class CurrentUser {
     Salida esperada:    Test exitoso, codigo de respuesta correcto (403)
     */
     @Test
+    @DisplayName ("Error 403 current user")
     void currentUser_successWhen403() throws Exception{
 
         User user = new User();

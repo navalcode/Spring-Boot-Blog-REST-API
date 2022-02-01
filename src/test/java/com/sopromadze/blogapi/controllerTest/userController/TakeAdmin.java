@@ -9,6 +9,7 @@ import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.payload.ApiResponse;
 import com.sopromadze.blogapi.service.UserService;
 import lombok.extern.java.Log;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -47,6 +48,7 @@ public class TakeAdmin {
      */
     @Test
     @WithMockUser (authorities = {"ROLE_ADMIN"})
+    @DisplayName ("Take admin successfully")
     void takeAdmin_success() throws Exception{
 
         User user = new User();
@@ -78,6 +80,7 @@ public class TakeAdmin {
     */
     @Test
     @WithMockUser (authorities = {"ROLE_USER"}) // o sin autorización
+    @DisplayName ("Error code 403 Take admin")
     void takeAdmin_successWhen403() throws Exception{
 
         User user = new User();
