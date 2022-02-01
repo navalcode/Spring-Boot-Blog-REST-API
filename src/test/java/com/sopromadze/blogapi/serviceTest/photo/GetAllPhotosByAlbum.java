@@ -18,6 +18,7 @@ import org.mockito.quality.Strictness;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class GetAllPhotosByAlbum {
     List<PhotoResponse> resultado2;
     PagedResponse<PhotoResponse> resultadoEsperado;
     Pageable pageable;
+    Page<Photo> pagePhoto;
 
     @BeforeEach
     void init() {
@@ -69,19 +71,18 @@ public class GetAllPhotosByAlbum {
         resultadoEsperado.setLast(true);
         resultadoEsperado.setSize(1);
         pageable = PageRequest.of(1, 10);
-
-
-
-
+        pagePhoto = new PageImpl(Arrays.asList(photo));
 
     }
 
     @DisplayName("Get all photos by album")
     @Test
     void getAllPhotosByAlbum_success() {
-
         PhotoResponse[] photoResponseList = {photoResponse};
-        when(photoRepository.findByAlbumId(album.getId(), pageable)).thenReturn(resultado);
+        List<Photo> photos = new ArrayList<>();
+        photos.add(photo);
+        Page<Photo> photos2 = new PageImpl(photos, pageable, photos.size());
+        when(photoRepository.findByAlbumId(album.getId(), pageable)).thenReturn(photos2);
         when(modelMapper.map(any(), any())).thenReturn(photoResponseList);
 
         assertEquals(resultadoEsperado, photoService.getAllPhotosByAlbum(album.getId(), 1, 10));
