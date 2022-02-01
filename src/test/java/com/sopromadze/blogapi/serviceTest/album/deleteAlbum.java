@@ -1,5 +1,7 @@
 package com.sopromadze.blogapi.serviceTest.album;
 
+import com.sopromadze.blogapi.exception.BlogapiException;
+import com.sopromadze.blogapi.exception.UnauthorizedException;
 import com.sopromadze.blogapi.model.Album;
 import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.model.role.Role;
@@ -19,6 +21,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
@@ -44,6 +47,7 @@ public class deleteAlbum {
     private List<Role> userRoles;
     private User adminUser;
     private User casualUser;
+    private User propertyUser;
     private UserPrincipal userPrincipalAdmin;
     private UserPrincipal userPrincipalCasual;
 
@@ -74,8 +78,18 @@ public class deleteAlbum {
                 "fiaunnnnnn20",
                 "fiaunnnnn20@gmail.com",
                 "1111");
-            casualUser.setId(1L);
+            casualUser.setId(2L);
             casualUser.setRoles(userRoles);
+
+        //albumPropertyUser creation
+        propertyUser = new User(
+                "Propietario",
+                "Propietaries",
+                "propieta2020",
+                "prope20@gmail.com",
+                "1234");
+        propertyUser.setId(3L);
+        propertyUser.setRoles(userRoles);
 
         //UserPrincipal creation
         userPrincipalAdmin = UserPrincipal.create(adminUser);
@@ -92,12 +106,12 @@ public class deleteAlbum {
         AlbumRequest a1 =new AlbumRequest();
         a1.setId(1L);
         a1.setTitle("Coches de carreras");
-        a1.setUser(adminUser);
+        a1.setUser(propertyUser);
 
         Album a =new Album();
         a.setId(1L);
         a.setTitle("Coches de carreras");
-        a.setUser(adminUser);
+        a.setUser(propertyUser);
 
         when(albumRepository.save(any())).thenReturn(a);
         when(albumRepository.findById(any())).thenReturn(java.util.Optional.of(a));
@@ -108,9 +122,9 @@ public class deleteAlbum {
         assertEquals(HttpStatus.OK, albumService.deleteAlbum(1L,userPrincipalAdmin).getStatusCode());
     }
 
-    /* Test: Comprobar que borra un album
+    /* Test: Comprobar que no borra un album porque ni el usuario que quiere borrarlo es admin ni es su propietario
     entrada: albumService.deleteAlbum(albumid, UserPrincipal)
-    salida esperada: un código 200, de haber borrado exitosamente el álbum */
+    salida esperada: un código 403, de haber borrado exitosamente el álbum */
     @Test
     void deleteAlbum_userWithoutAdminRole(){
 
@@ -118,12 +132,12 @@ public class deleteAlbum {
         AlbumRequest a1 =new AlbumRequest();
         a1.setId(1L);
         a1.setTitle("Coches de carreras");
-        a1.setUser(casualUser);
+        a1.setUser(propertyUser);
 
         Album a =new Album();
         a.setId(1L);
         a.setTitle("Coches de carreras");
-        a.setUser(casualUser);
+        a.setUser(propertyUser);
 
         when(albumRepository.save(any())).thenReturn(a);
         when(albumRepository.findById(any())).thenReturn(java.util.Optional.of(a));
@@ -131,7 +145,6 @@ public class deleteAlbum {
 
         albumService.addAlbum(a1, userPrincipalCasual);
 
-        //Devuelve un 200
-        assertEquals(HttpStatus.FORBIDDEN, albumService.deleteAlbum(1L,userPrincipalCasual).getStatusCode());
+        assertThrows(BlogapiException.class, () -> albumService.deleteAlbum(1L,userPrincipalCasual));
     }
 }
