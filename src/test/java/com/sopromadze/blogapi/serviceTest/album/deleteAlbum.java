@@ -98,7 +98,7 @@ public class deleteAlbum {
     }
 
     /* Test: Comprobar que borra un album
-    entrada: albumService.deleteAlbum(albumid, UserPrincipal)
+    Entrada: albumService.deleteAlbum(albumid, UserPrincipal)
     salida esperada: un código 200, de haber borrado exitosamente el álbum */
     @DisplayName("delete album successfully")
     @Test
