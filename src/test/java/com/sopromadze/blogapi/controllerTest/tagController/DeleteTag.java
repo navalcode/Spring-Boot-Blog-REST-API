@@ -1,7 +1,7 @@
-package com.sopromadze.blogapi.controllerTest.postController;
+package com.sopromadze.blogapi.controllerTest.tagController;
 
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
-import com.sopromadze.blogapi.service.impl.PostServiceImpl;
+import com.sopromadze.blogapi.service.impl.TagServiceImpl;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,35 +18,34 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Log
 @SpringBootTest(classes = TestDisableSecurityConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class DeletePost {
+public class DeleteTag {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private PostServiceImpl postService;
+    private TagServiceImpl tagService;
 
 
-    //Test: Comproabr que devuelve 200
-    //Entrada: idPost
+    //Test: Comproar que devuelve 200
+    //Entrada: idTag
     //Salida esperada: status Ok
-    @DisplayName("Delete post with a user rol or admin rol")
+    @DisplayName("Delete tag with a user rol or admin rol")
     @Test
     @WithMockUser(authorities = {"ROLE_ADMIN", "ROLE_USER"})
-    void deletePost_return200() throws Exception {
-        mockMvc.perform(delete("/api/posts/{id}", 1L)
+    void deleteTag_return200() throws Exception{
+        mockMvc.perform(delete("/api/tags/{id}", 1L)
                 .contentType("application/json"))
                 .andExpect(status().isOk());
     }
 
-
     //Test: Comprobar que devuelve un 403 porque el usuario no tiene permisos
-    //Entrada: idPost
+    //Entrada: idTag
     //Salida esperada: 403
-    @DisplayName("Delete post without authorities")
+    @DisplayName("Delete tag without authorities")
     @Test
-    void deletePost_return403() throws Exception {
-        mockMvc.perform(delete("/api/posts/{id}", 1L)
+    void deleteTag_return403() throws Exception {
+        mockMvc.perform(delete("/api/tags/{id}", 1L)
                 .contentType("application/json"))
                 .andExpect(status().isForbidden());
     }
