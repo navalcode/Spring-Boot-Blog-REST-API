@@ -35,7 +35,7 @@ public class UpdateCategory {
     @MockBean
     private CategoryServiceImpl categoryService;
 
-    Category category;
+    private Category category;
 
 
     @BeforeEach
@@ -48,8 +48,8 @@ public class UpdateCategory {
 
     }
 
-    /*Test:Check if update category returns 201 when updated
-    * Input:categoryId , UserPrincipal
+    /*Test: Check if update category returns 200 when updated
+    * Input:categoryId , CategoryRequest ,UserPrincipal
     * Output:ResponseEntity<Category>
     * */
     @Test
@@ -72,7 +72,7 @@ public class UpdateCategory {
         assertEquals(expectedJson, actual);
     }
 
-    /*Test:Check if updateCategory throws 401 when ther is no user
+    /*Test:Check if updateCategory throws 401 when there is no user
     * Input:CategoryId,no User
     * Output:Throws Unauthorized Exception
     * */
