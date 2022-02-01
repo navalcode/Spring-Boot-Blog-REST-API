@@ -3,11 +3,8 @@ package com.sopromadze.blogapi.controllerTest.tagController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
 
-import com.sopromadze.blogapi.model.Album;
 import com.sopromadze.blogapi.model.Tag;
-import com.sopromadze.blogapi.service.CategoryService;
 import com.sopromadze.blogapi.service.TagService;
-import com.sopromadze.blogapi.service.impl.TagServiceImpl;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,8 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
@@ -46,12 +41,13 @@ public class GetTag {
     @DisplayName("Get tag")
     @Test
     void getTag_return200() throws Exception{
+
         Tag tag = new Tag();
         tag.setId(1L);
 
         when(tagService.getTag(1L)).thenReturn(tag);
 
-        mockMvc.perform(get("/api/tags/{id}/",1L)
+        mockMvc.perform(get("/api/tags/{id}",1L)
                         .contentType("application/json"))
                 .andExpect(status().isOk());
     }
