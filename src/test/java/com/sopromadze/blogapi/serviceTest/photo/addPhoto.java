@@ -93,7 +93,7 @@ public class addPhoto {
     */
     @Test
     @DisplayName ("Add photo successfully")
-    void addPhoto_succes(){
+    void addPhoto_success(){
         when(albumRepository.findById(photoRequest.getAlbumId())).thenReturn(Optional.of(album));
         when(photoRepository.findById(photo.getId())).thenReturn(Optional.of(photo));
         assertEquals(photo.getAlbum().getUser().getId(),user.getId());
