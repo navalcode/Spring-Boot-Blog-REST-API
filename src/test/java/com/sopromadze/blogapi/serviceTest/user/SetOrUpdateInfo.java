@@ -128,7 +128,7 @@ public class SetOrUpdateInfo {
     void setOrUpdateInfo_success(){
         when(userRepository.findByUsername(Mockito.any())).thenReturn(java.util.Optional.ofNullable(user));
         when(userRepository.save(Mockito.any())).thenReturn(user);
-        when(postRepository.countByCreatedBy(1L)).thenReturn(1L);
+        when(postRepository.countByUserId(1L)).thenReturn(1L);
 
         assertEquals(userProfile,userService.setOrUpdateInfo(userPrincipal,infoRequest));
     }
@@ -140,7 +140,7 @@ public class SetOrUpdateInfo {
     void setOrUpdateInfo_throwsAccessDeniedException(){
         when(userRepository.findByUsername("Martin")).thenReturn(java.util.Optional.ofNullable(user));
         when(userRepository.save(Mockito.any())).thenReturn(user);
-        when(postRepository.countByCreatedBy(1L)).thenReturn(1L);
+        when(postRepository.countByUserId(1L)).thenReturn(1L);
 
         assertThrows(AccessDeniedException.class,() -> userService.setOrUpdateInfo(userPrincipal2,infoRequest));
     }
