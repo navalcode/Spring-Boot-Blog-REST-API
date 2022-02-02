@@ -1,6 +1,7 @@
 package com.sopromadze.blogapi.controllerTest.categoryController;
 
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
+import com.sopromadze.blogapi.controller.CategoryController;
 import com.sopromadze.blogapi.service.CategoryService;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.DisplayName;
