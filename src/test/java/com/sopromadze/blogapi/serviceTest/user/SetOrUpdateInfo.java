@@ -141,7 +141,6 @@ public class SetOrUpdateInfo {
         when(userRepository.findByUsername("Martin")).thenReturn(java.util.Optional.ofNullable(user));
         when(userRepository.save(Mockito.any())).thenReturn(user);
         when(postRepository.countByUserId(1L)).thenReturn(1L);
-
         assertThrows(AccessDeniedException.class,() -> userService.setOrUpdateInfo(userPrincipal2,infoRequest));
     }
 }
