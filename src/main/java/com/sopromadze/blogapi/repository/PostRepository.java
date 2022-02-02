@@ -17,5 +17,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 	Page<Post> findByTagsIn(List<Tag> tags, Pageable pageable);
 
-	Long countByCreatedBy(Long userId);
+	Long countByUserId(Long userId);
 }
