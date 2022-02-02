@@ -2,6 +2,7 @@ package com.sopromadze.blogapi.controllerTest.postController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
+import com.sopromadze.blogapi.exception.ResourceNotFoundException;
 import com.sopromadze.blogapi.model.Post;
 import com.sopromadze.blogapi.service.PostService;
 import lombok.extern.java.Log;
@@ -34,10 +35,10 @@ public class GetPost {
 
     /*
     Test:               Petición de obtener un post
-    Entrada:            get("/api/posts/{id}/",any(Long.class))
+    Entrada:            get("/api/posts/{id}/",1L)
     Salida esperada:    Test exitoso, codigo de respuesta correcto (200)
     */
-    @DisplayName("Get post")
+    @DisplayName("Get post return 200")
     @Test
     void getPost_return200() throws Exception{
         Post post = new Post();
@@ -48,6 +49,24 @@ public class GetPost {
         mockMvc.perform(get("/api/posts/{id}" ,1L)
                         .contentType("application/json"))
                 .andExpect(status().isOk());
+    }
+
+    /*
+    Test:               Petición de obtener un post por id no encontrado
+    Entrada:            get("/api/posts/{id}/",1L)
+    Salida esperada:    Test exitoso, codigo de respuesta correcto (404)
+    */
+    @DisplayName("Get post return 404")
+    @Test
+    void getPost_return404() throws Exception{
+        Post post = new Post();
+        post.setId(1L);
+
+        when(postService.getPost(1L)).thenThrow(new ResourceNotFoundException("Post","id",1L));
+
+        mockMvc.perform(get("/api/posts/{id}" ,1L)
+                        .contentType("application/json"))
+                .andExpect(status().isNotFound());
     }
 
 }
