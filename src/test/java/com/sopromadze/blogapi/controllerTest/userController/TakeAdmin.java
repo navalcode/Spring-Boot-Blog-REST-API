@@ -1,12 +1,12 @@
 package com.sopromadze.blogapi.controllerTest.userController;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
 import com.sopromadze.blogapi.model.role.Role;
 import com.sopromadze.blogapi.model.role.RoleName;
 import com.sopromadze.blogapi.model.user.User;
-import com.sopromadze.blogapi.payload.UserSummary;
-import com.sopromadze.blogapi.security.UserPrincipal;
+import com.sopromadze.blogapi.payload.ApiResponse;
 import com.sopromadze.blogapi.service.UserService;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.DisplayName;
@@ -22,13 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Log
-@SpringBootTest(classes = TestDisableSecurityConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest (classes = TestDisableSecurityConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class CurrentUser {
+public class TakeAdmin {
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,14 +42,14 @@ public class CurrentUser {
 
 
     /*
-     Test:               Petición para mostrar al usuario registrado
-     Entrada:            get("/api/users/me")
+     Test:               Petición para quitar el rol de administrador a un usuario
+     Entrada:            put("/api/users/{username}/takeAdmin","Pepe777")
      Salida esperada:    Test exitoso, codigo de respuesta correcto (200)
      */
     @Test
-    @WithMockUser(authorities = {"ROLE_USER"})
-    @DisplayName ("Current user successfully")
-    void currentUser_success() throws Exception{
+    @WithMockUser (authorities = {"ROLE_ADMIN"})
+    @DisplayName ("Take admin successfully")
+    void takeAdmin_success() throws Exception{
 
         User user = new User();
         user.setId(1L);
@@ -58,28 +59,29 @@ public class CurrentUser {
         user.setPassword("12345");
         List<Role> rolesUser = new ArrayList<Role>();
         rolesUser.add(new Role(RoleName.ROLE_USER));
+        rolesUser.add(new Role(RoleName.ROLE_ADMIN));
         user.setRoles(rolesUser);
-        UserPrincipal userP = UserPrincipal.create(user);
-        UserSummary result= new UserSummary(user.getId(),user.getUsername(),user.getFirstName(),user.getLastName());
 
-        when(userService.getCurrentUser(userP)).thenReturn(result);
+        ApiResponse response = new ApiResponse();
+        when(userService.removeAdmin(user.getUsername())).thenReturn(response);
 
-        mockMvc.perform(get("/api/users/me")
-                        .contentType("application/json"))
+        mockMvc.perform(put("/api/users/{username}/takeAdmin","Pepe777")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(response)))
                 .andExpect(status().isOk());
-
 
     }
 
 
     /*
     Test:               Petición para mostrar al usuario registrado fallido por falta de autorizacion
-    Entrada:            get("/api/users/me")
+    Entrada:            put("/api/users/{username}/takeAdmin","Pepe777")
     Salida esperada:    Test exitoso, codigo de respuesta correcto (403)
     */
     @Test
-    @DisplayName ("Error 403 current user")
-    void currentUser_successWhen403() throws Exception{
+    @WithMockUser (authorities = {"ROLE_USER"}) // o sin autorización
+    @DisplayName ("Error code 403 Take admin")
+    void takeAdmin_successWhen403() throws Exception{
 
         User user = new User();
         user.setId(1L);
@@ -90,20 +92,13 @@ public class CurrentUser {
         List<Role> rolesUser = new ArrayList<Role>();
         rolesUser.add(new Role(RoleName.ROLE_USER));
         user.setRoles(rolesUser);
-        UserPrincipal userP = UserPrincipal.create(user);
-        UserSummary result= new UserSummary(user.getId(),user.getUsername(),user.getFirstName(),user.getLastName());
 
-        when(userService.getCurrentUser(userP)).thenReturn(result);
+        ApiResponse response = new ApiResponse();
+        when(userService.removeAdmin(user.getUsername())).thenReturn(response);
 
-        mockMvc.perform(get("/api/users/me")
+        mockMvc.perform(put("/api/users/{username}/takeAdmin","Pepe777")
                         .contentType("application/json"))
                 .andExpect(status().isForbidden());
 
     }
-
-
-
-
-
-
 }

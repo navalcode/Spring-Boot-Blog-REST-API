@@ -3,6 +3,7 @@ package com.sopromadze.blogapi.controllerTest.tagController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
 
+import com.sopromadze.blogapi.exception.ResourceNotFoundException;
 import com.sopromadze.blogapi.model.Tag;
 import com.sopromadze.blogapi.service.TagService;
 import lombok.extern.java.Log;
@@ -35,10 +36,10 @@ public class GetTag {
 
     /*
     Test:               Petición de obtener un tag
-    Entrada:            get("/api/tags/{id}/",any(Long.class))
+    Entrada:            get("/api/tags/{id}/",1L)
     Salida esperada:    Test exitoso, codigo de respuesta correcto (200)
     */
-    @DisplayName("Get tag")
+    @DisplayName("Get tag return 200")
     @Test
     void getTag_return200() throws Exception{
 
@@ -52,6 +53,25 @@ public class GetTag {
                 .andExpect(status().isOk());
     }
 
+
+    /*
+    Test:               Petición de obtener un tag por id no encontrado
+    Entrada:            get("/api/tags/{id}/",1L)
+    Salida esperada:    Test exitoso, codigo de respuesta correcto (404)
+    */
+    @DisplayName("Get tag return 404")
+    @Test
+    void getTag_return404() throws Exception{
+
+        Tag tag = new Tag();
+        tag.setId(1L);
+
+        when(tagService.getTag(1L)).thenThrow(new ResourceNotFoundException("Tag","id",1L));
+
+        mockMvc.perform(get("/api/tags/{id}",1L)
+                        .contentType("application/json"))
+                .andExpect(status().isNotFound());
+    }
 
 
 

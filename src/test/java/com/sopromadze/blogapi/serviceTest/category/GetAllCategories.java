@@ -62,9 +62,6 @@ public class GetAllCategories {
         category.setCreatedAt(Instant.now());
         category.setUpdatedAt(Instant.now());
         categories = new PageImpl<>(Arrays.asList(category));
-
-
-
     }
 
 
@@ -102,8 +99,5 @@ public class GetAllCategories {
         assertThrows(NullPointerException.class ,
                 ()->categoryService.getAllCategories( 1, 1));
     }
-
-
-
 
 }
