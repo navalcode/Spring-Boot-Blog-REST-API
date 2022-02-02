@@ -102,7 +102,7 @@ public class GetUserProfile {
     @Test
     void getUserProfile_success(){
         when(userRepository.getUserByName("Good etenciv")).thenReturn(user);
-        when(postRepository.countByCreatedBy(1L)).thenReturn(1L);
+        when(postRepository.countByUserId(1L)).thenReturn(1L);
 
         assertEquals(userProfile,userService.getUserProfile("Good etenciv"));
     }

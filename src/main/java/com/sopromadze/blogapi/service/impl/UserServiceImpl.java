@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 	public UserProfile getUserProfile(String username) {
 		User user = userRepository.getUserByName(username);
 
-		Long postCount = postRepository.countByCreatedBy(user.getId());
+		Long postCount = postRepository.countByUserId(user.getId());
 
 		return new UserProfile(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(),
 				user.getCreatedAt(), user.getEmail(), user.getAddress(), user.getPhone(), user.getWebsite(),
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
 			user.setPhone(infoRequest.getPhone());
 			User updatedUser = userRepository.save(user);
 
-			Long postCount = postRepository.countByCreatedBy(updatedUser.getId());
+			Long postCount = postRepository.countByUserId(updatedUser.getId());
 
 			return new UserProfile(updatedUser.getId(), updatedUser.getUsername(),
 					updatedUser.getFirstName(), updatedUser.getLastName(), updatedUser.getCreatedAt(),
