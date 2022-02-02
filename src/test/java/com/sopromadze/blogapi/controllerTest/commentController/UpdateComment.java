@@ -2,6 +2,7 @@ package com.sopromadze.blogapi.controllerTest.commentController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
+import com.sopromadze.blogapi.exception.ResourceNotFoundException;
 import com.sopromadze.blogapi.model.Comment;
 import com.sopromadze.blogapi.model.Post;
 import com.sopromadze.blogapi.model.role.Role;
@@ -10,9 +11,12 @@ import com.sopromadze.blogapi.model.user.User;
 import com.sopromadze.blogapi.payload.CommentRequest;
 import com.sopromadze.blogapi.security.UserPrincipal;
 import com.sopromadze.blogapi.service.CommentService;
+import com.sopromadze.blogapi.service.impl.CommentServiceImpl;
 import lombok.extern.java.Log;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +42,29 @@ public class UpdateComment {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private CommentService commentService;
+    private CommentServiceImpl commentService;
+
+    UserPrincipal userP;
+    Comment comment;
+    CommentRequest content;
+    Post post;
+
+    @BeforeEach
+    void init() {
+        Post post = new Post();
+        post.setId(1L);
+
+        content = new CommentRequest();
+        content.setBody("Esto es el cuerpo de un comment requerido");
+        User user = new User();
+        user.setId(1L);
+        List<Role> rolesUser = new ArrayList<Role>();
+        rolesUser.add(new Role(RoleName.ROLE_USER));
+        user.setRoles(rolesUser);
+        userP = UserPrincipal.create(user);
+        comment = new Comment();
+
+    }
 
     /*
      Test:               Petición para modificar un comment
@@ -50,18 +76,6 @@ public class UpdateComment {
     @WithMockUser(authorities = {"ROLE_USER","ROLE_ADMIN"})
     void updateComment_return200() throws Exception{
 
-        Post post = new Post();
-        post.setId(1L);
-
-        CommentRequest content = new CommentRequest();
-        content.setBody("Esto es el cuerpo de un comment requerido");
-        User user = new User();
-        user.setId(1L);
-        List<Role> rolesUser = new ArrayList<Role>();
-        rolesUser.add(new Role(RoleName.ROLE_USER));
-        user.setRoles(rolesUser);
-        UserPrincipal userP = UserPrincipal.create(user);
-        Comment comment = new Comment();
 
         when(commentService.updateComment(1L, 1L, content, userP)).thenReturn(comment);
 
@@ -84,18 +98,6 @@ public class UpdateComment {
     @WithMockUser(authorities = {"ROLE_USER","ROLE_ADMIN"})
     void updateComment_return400() throws Exception{
 
-        Post post = new Post();
-        post.setId(1L);
-
-        CommentRequest content = new CommentRequest();
-        content.setBody("Esto es el cuerpo de un comment requerido");
-        User user = new User();
-        user.setId(1L);
-        List<Role> rolesUser = new ArrayList<Role>();
-        rolesUser.add(new Role(RoleName.ROLE_USER));
-        user.setRoles(rolesUser);
-        UserPrincipal userP = UserPrincipal.create(user);
-        Comment comment = new Comment();
 
         when(commentService.updateComment(1L, 1L, content, userP)).thenReturn(comment);
 
@@ -109,9 +111,9 @@ public class UpdateComment {
 
 
     /*
-     Test:               Petición para modificar un comment
-     Entrada:            put("/api/posts/{postId}/comments/{id}",1L,1L
-     Salida esperada:    Test exitoso, codigo de respuesta correcto (200)
+     Test:               Petición para modificar un comment no autorizado
+     Entrada:            put("/api/posts/{postId}/comments/{id}",1L,1L)
+     Salida esperada:    Test exitoso, codigo de respuesta correcto (403)
      */
     @DisplayName("update comment return 403")
     @Test
@@ -139,5 +141,6 @@ public class UpdateComment {
         ).andExpect(status().isForbidden());
 
     }
+
 
 }

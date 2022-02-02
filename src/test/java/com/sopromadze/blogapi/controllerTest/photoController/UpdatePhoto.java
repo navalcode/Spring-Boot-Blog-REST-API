@@ -2,6 +2,7 @@ package com.sopromadze.blogapi.controllerTest.photoController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sopromadze.blogapi.configurationSecurity.TestDisableSecurityConfig;
+import com.sopromadze.blogapi.exception.ResourceNotFoundException;
 import com.sopromadze.blogapi.model.Comment;
 import com.sopromadze.blogapi.model.Post;
 import com.sopromadze.blogapi.model.role.Role;
@@ -15,6 +16,7 @@ import com.sopromadze.blogapi.service.PhotoService;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -120,7 +122,7 @@ public class UpdatePhoto {
 
     /*
      Test:               Petición para modificar una foto sin autorizar
-     Entrada:            put("/api/posts/{postId}/comments/{id}",1L,1L
+     Entrada:            put("/api/posts/{postId}/comments/{id}",1L,1L)
      Salida esperada:    Test exitoso, codigo de respuesta correcto (403)
      */
     @DisplayName("update comment return 403")
