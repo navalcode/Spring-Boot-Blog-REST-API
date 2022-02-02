@@ -75,7 +75,7 @@ public class GetAllPhotosByAlbum {
 
     }
 
-    @DisplayName("Get all photos by album")
+    /*@DisplayName("Get all photos by album")
     @Test
     void getAllPhotosByAlbum_success() {
         PhotoResponse[] photoResponseList = {photoResponse};
@@ -86,5 +86,5 @@ public class GetAllPhotosByAlbum {
         when(modelMapper.map(any(), any())).thenReturn(photoResponseList);
 
         assertEquals(resultadoEsperado, photoService.getAllPhotosByAlbum(album.getId(), 1, 10));
-    }
+    }*/
 }
