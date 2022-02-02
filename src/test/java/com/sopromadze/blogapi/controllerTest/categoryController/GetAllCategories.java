@@ -116,7 +116,7 @@ class GetAllCategories {
 
     /*
     Test: Mandar una pagina sin sin elementos ni tamaño
-    Entrada: get("/api/categories")
+    Entrada: GET("/api/categories")
     Salida esperada: Pagina vacia sin elementos ni tamaño
     */
     @Test
