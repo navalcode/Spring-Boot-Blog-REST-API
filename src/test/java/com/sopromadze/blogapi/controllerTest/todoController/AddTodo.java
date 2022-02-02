@@ -63,5 +63,16 @@ public class AddTodo {
                         .content(objectMapper.writeValueAsString(todo)))
                 .andExpect(status().isUnauthorized());
     }
+    //Test: Comprobar que devuelve 400
+    //Entrada: post("/api/todos")
+    //Salida esperada: El test se realiza con exito y devuelve 400
+    @Test
+    @WithMockUser(authorities = {"ROLE_USER"})
+    void addTodo_return400() throws Exception{
+
+        mockMvc.perform(post("/api/todos")
+                        .contentType("application/json"))
+                .andExpect(status().isBadRequest());
+    }
 
 }
