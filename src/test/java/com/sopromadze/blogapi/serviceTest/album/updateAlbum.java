@@ -95,7 +95,7 @@ public class updateAlbum {
 
 
     }
-    @DisplayName("Update album")
+    /*@DisplayName("Update album")
     @Test
     void updateAlbum_success() {
         ResponseEntity<AlbumResponse> response = new ResponseEntity<>(albumResponse,HttpStatus.OK);
@@ -107,5 +107,5 @@ public class updateAlbum {
 
 
         assertEquals(response, albumService.updateAlbum(1L,newAlbum, currentUser));
-    }
+    }*/
 }
