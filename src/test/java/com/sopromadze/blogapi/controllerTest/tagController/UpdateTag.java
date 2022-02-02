@@ -46,7 +46,7 @@ public class UpdateTag {
         tag.setCreatedBy(1L);
     }
 
-    /*Test: Check if update category returns 200 when updated
+    /*Test: Check if update tag returns 200 when updated
     * Input:Long TagId, RequestBody newTag, UserPrincipal Current
     * Output: ResponseEntity<newTag>
     * */
