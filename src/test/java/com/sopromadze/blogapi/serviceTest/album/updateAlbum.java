@@ -89,7 +89,9 @@ public class updateAlbum {
 
         newAlbum = new AlbumRequest();
         newAlbum.setTitle("Titulo2");
+        newAlbum.setId(1L);
         albumResponse = new AlbumResponse();
+        albumResponse.setId(1L);
 
 
     }
@@ -99,8 +101,9 @@ public class updateAlbum {
         ResponseEntity<AlbumResponse> response = new ResponseEntity<>(albumResponse,HttpStatus.OK);
         when(albumRepository.findById(1L)).thenReturn(Optional.ofNullable(album));
         when(userRepository.getUser(currentUser)).thenReturn(user);
+        newAlbum.setTitle("Titulo3");
         when(albumRepository.save(album)).thenReturn(album);
-        when(modelMapper.map(newAlbum, albumResponse)).thenReturn(response);
+        modelMapper.map(newAlbum, albumResponse);
 
 
         assertEquals(response, albumService.updateAlbum(1L,newAlbum, currentUser));
